@@ -14,10 +14,10 @@
 			<ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 				<p class="nav-heading mt-2">Menu</p>
 				<li>
-					<a href="tambah-artikel.html"> <span>Tambah Artikel</span> </a>
+					<a href="<?= base_url('artikel/create') ?>"> <span>Tambah Artikel</span> </a>
 				</li>
 				<li>
-					<a href="list-artikel.html"> <span>List Artikel</span> </a>
+					<a href="<?= base_url('artikel') ?>"> <span>List Artikel</span> </a>
 				</li>
 			</ul>
 		</li>
