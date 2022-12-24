@@ -23,6 +23,8 @@
 									<th class="text-center">Edit</th>
 									<th class="text-center">Hapus</th>
 									<th class="text-center">Lihat</th>
+									<th class="text-center">Jalur Program</th>
+									<th class="text-center">Manfaat</th>
 								</tr>
 								<?php $i = 1;
 								foreach ($program as $p) : ?>
@@ -41,7 +43,6 @@
 										</td>
 										<td>
 											<center>
-												<!-- <a onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger" href="<?= base_url('program/delete/') . $p['id_program'] ?>"> Hapus </a> -->
 												<form action="<?= base_url('program/delete/') . $p['id_program'] ?>" method="POST">
 													<input type="hidden" name="old_image" value="<?= $p['image'] ?>">
 													<input type="hidden" name="old_banner" value="<?= $p['banner'] ?>">
@@ -55,6 +56,16 @@
 												<a class="mb-2 mt-2 btn btn-sm btn-success" href="#"> Lihat </a>
 											</center>
 										</td>
+										<td>
+											<center>
+												<a class="mb-2 mt-2 btn btn-sm btn-success" href="<?= base_url('program/program_path/') . $p['id_program'] ?>">Kelola Jalur Program</a>
+											</center>
+										</td>
+										<td>
+											<center>
+												<a class="mb-2 mt-2 btn btn-sm btn-success" href="<?= base_url('program/program_benefit/') . $p['id_program'] ?>">Kelola Manfaat</a>
+											</center>
+										</td>
 									</tr>
 								<?php endforeach; ?>
 
@@ -63,6 +74,9 @@
 					</div>
 				</div>
 			</div>
+			<a href="<?= base_url('program/path') ?>"><span>Kelola jalur di sini..</span> </a><br>
+			<a href="<?= base_url('program/benefit') ?>"><span>Kelola manfaat di sini..</span> </a>
+
 		</div>
 	</section>
 </main>
