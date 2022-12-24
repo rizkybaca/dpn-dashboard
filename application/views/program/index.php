@@ -2,6 +2,8 @@
 	<div class="pagetitle">
 		<h1 class="judul"><?= $title ?></h1>
 		<p class="keterangan-judul">Anda dapat mengedit dan menghapus Program yang telah di post pada halaman Tambah Program</p>
+		<?= $this->session->flashdata('message'); ?>
+
 	</div>
 
 	<section class="section dashboard mt-4">
@@ -29,7 +31,7 @@
 										<td><?= $p['title'] ?></td>
 										<td><?= $p['location'] ?></td>
 										<td>
-											<img src="<?= base_url('assets/img/program/') . $p['image']; ?>" alt="banner" style="width:128px;height:128px;object-fit: cover;">
+											<img src="<?= base_url('assets/img/program/image/') . $p['image']; ?>" alt="gambar" style="width:128px;height:128px;object-fit: cover;">
 
 										</td>
 										<td>

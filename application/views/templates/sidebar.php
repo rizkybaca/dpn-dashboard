@@ -32,7 +32,7 @@
 			<ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 				<p class="nav-heading mt-2">Menu</p>
 				<li>
-					<a href="tambah-program.html"> <span>Tambah Program</span> </a>
+					<a href="<?= base_url('program/create') ?>"> <span>Tambah Program</span> </a>
 				</li>
 				<li>
 					<a href="<?= base_url('program') ?>"> <span>List Program</span> </a>
