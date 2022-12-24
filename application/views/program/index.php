@@ -36,12 +36,18 @@
 										</td>
 										<td>
 											<center>
-												<a class="mb-2 mt-2 btn btn-sm" style="background-color: #242790; color: white" href="#"> Edit </a>
+												<a class="mb-2 mt-2 btn btn-sm" style="background-color: #242790; color: white" href="<?= base_url('program/edit/') . $p['id_program'] ?>"> Edit </a>
 											</center>
 										</td>
 										<td>
 											<center>
-												<a onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger" href="#"> Hapus </a>
+												<!-- <a onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger" href="<?= base_url('program/delete/') . $p['id_program'] ?>"> Hapus </a> -->
+												<form action="<?= base_url('program/delete/') . $p['id_program'] ?>" method="POST">
+													<input type="hidden" name="old_image" value="<?= $p['image'] ?>">
+													<input type="hidden" name="old_banner" value="<?= $p['banner'] ?>">
+													<input type="hidden" name="old_video" value="<?= $p['video'] ?>">
+													<button onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger"> Hapus </button>
+												</form>
 											</center>
 										</td>
 										<td>

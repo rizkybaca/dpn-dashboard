@@ -56,6 +56,7 @@ class Program extends CI_Controller
 			redirect('program');
 		}
 	}
+
 	public function edit($id_program)
 	{
 		$data['user'] = $this->user->getUserLogin();
@@ -76,15 +77,48 @@ class Program extends CI_Controller
 			$this->load->view('program/edit', $data);
 			$this->load->view('templates/footer');
 		} else {
-			if ($this->program->storeProgram()) {
-				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program Berhasil Ditambahkan!</div>');
+			if ($this->program->updateProgram()) {
+
+
+
+
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program Berhasil Diubah!</div>');
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program Gagal Ditambahkan!</div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program Gagal Diubah!</div>');
 			}
 
 			redirect('program');
 		}
 	}
+
+	public function delete($id_program)
+	{
+
+		if ($this->program->deleteProgram($id_program)) {
+
+			$old_image = $this->input->post('old_image', true);
+			if ($old_image != 'default.jpg') {
+				unlink(FCPATH . './assets/img/program/image/' . $old_image);
+			}
+
+			$old_banner = $this->input->post('old_banner', true);
+			if ($old_banner != 'default.jpg') {
+				unlink(FCPATH . './assets/img/program/banner/' . $old_banner);
+			}
+
+			$old_video = $this->input->post('old_video', true);
+			if ($old_video != 'default.mp4') {
+				unlink(FCPATH . './assets/video/program/video_preview/' . $old_video);
+			}
+
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program berhasil dihapus!</div>');
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program gagal dihapus!</div>');
+		}
+
+		redirect('program');
+	}
+
 
 	public function program_type()
 	{
