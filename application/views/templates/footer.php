@@ -31,7 +31,23 @@
 				document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleId;
 			}
 		});
+	});
 
+	$('.ini-check').on('click', function() {
+		const categoryId = $(this).data('kategori');
+		const articleId = $(this).data('artikel');
+
+		$.ajax({
+			url: "<?= base_url('artikel/changearticlecategory'); ?>",
+			type: 'post',
+			data: {
+				categoryId: categoryId,
+				articleId: articleId
+			},
+			success: function() {
+				document.location.href = "<?= base_url('artikel/articleCategory/'); ?>" + articleId;
+			}
+		});
 	});
 </script>
 </body>

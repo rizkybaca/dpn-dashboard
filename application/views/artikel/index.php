@@ -21,6 +21,7 @@
 									<th class="text-center">Edit</th>
 									<th class="text-center">Hapus</th>
 									<th class="text-center">Lihat</th>
+									<th class="text-center">Kategori</th>
 								</tr>
 								<?php $i = 1;
 								foreach ($artikel as $a) : ?>
@@ -33,17 +34,25 @@
 										</td>
 										<td>
 											<center>
-												<a class="mb-2 mt-2 btn btn-sm" style="background-color: #242790; color: white" href="#"> Edit </a>
+												<a class="mb-2 mt-2 btn btn-sm" style="background-color: #242790; color: white" href="<?= base_url('artikel/edit/') . $a['id_article'] ?>"> Edit </a>
 											</center>
 										</td>
 										<td>
 											<center>
-												<a onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger" href="#"> Hapus </a>
+												<form action="<?= base_url('artikel/delete/') . $a['id_article'] ?>" method="POST">
+													<input type="hidden" name="old_image" value="<?= $a['image'] ?>">
+													<button onclick="return confirm('Yakin Hapus?')" class="mb-2 mt-2 btn btn-sm btn-danger"> Hapus </button>
+												</form>
 											</center>
 										</td>
 										<td>
 											<center>
 												<a class="mb-2 mt-2 btn btn-sm btn-success" href="#"> Lihat </a>
+											</center>
+										</td>
+										<td>
+											<center>
+												<a class="mb-2 mt-2 btn btn-sm btn-success" href="<?= base_url('artikel/articleCategory/') . $a['id_article'] ?>">Kelola Kategori </a>
 											</center>
 										</td>
 									</tr>

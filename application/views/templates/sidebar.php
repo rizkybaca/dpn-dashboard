@@ -19,6 +19,9 @@
 				<li>
 					<a href="<?= base_url('artikel') ?>"> <span>List Artikel</span> </a>
 				</li>
+				<!-- <li>
+					<a href="<?= base_url('artikel/category') ?>"> <span>Kategori</span> </a>
+				</li> -->
 			</ul>
 		</li>
 		<!-- program -->

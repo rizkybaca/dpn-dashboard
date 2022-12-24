@@ -9,6 +9,8 @@ class Artikel extends CI_Controller
 	{
 		parent::__construct();
 		is_logged_in();
+		$this->load->model('Article_model', 'artikel');
+		$this->load->model('Category_model', 'kategori');
 	}
 
 	public function index()
@@ -42,6 +44,7 @@ class Artikel extends CI_Controller
 			$this->load->view('templates/footer');
 		} else {
 			$title = $this->input->post('title');
+			$slug = url_title($title, 'dash', true);
 			$created_by = $this->input->post('created_by');
 			$article_content = $this->input->post('article_content');
 			// $image = $this->input->post('image');
@@ -68,6 +71,7 @@ class Artikel extends CI_Controller
 
 			$this->db->set('post_date', $post_date);
 			$this->db->set('title', $title);
+			$this->db->set('slug', $slug);
 			$this->db->set('article_content', $article_content);
 			$this->db->set('created_by', $created_by);
 			$this->db->set('created_at', $created_at);
@@ -76,6 +80,171 @@ class Artikel extends CI_Controller
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
 			redirect('artikel');
 		}
+	}
+
+	public function edit($id_article)
+	{
+		$data['title'] = 'Form Ubah Data Artikel';
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+		$data['artikel'] = $this->artikel->getArticleById($id_article);
+		$data['kategori'] = $this->kategori->getCategory();
+
+		$this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
+		$this->form_validation->set_rules('created_by', 'Penulis', 'required|trim');
+		$this->form_validation->set_rules('article_content', 'Isi Artikel', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('artikel/edit', $data);
+			$this->load->view('templates/footer');
+		} else {
+
+			if ($this->artikel->updateArticle()) {
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diubah!</div>');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"Artikel gagal diubah!</div>');
+			}
+			redirect('artikel');
+		}
+	}
+
+	public function delete($id_article)
+	{
+
+		if ($this->artikel->deleteArticle($id_article)) {
+			$old_image = $this->input->post('old_image', true);
+
+			if ($old_image != 'default.jpg') {
+				unlink(FCPATH . 'assets/img/artikel/' . $old_image);
+			}
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil dihapus!</div>');
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"Artikel gagal dihapus!</div>');
+		}
+
+		redirect('artikel');
+	}
+
+
+
+	public function category()
+	{
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$data['title'] = 'List Artikel';
+
+		$data['kategori'] = $this->kategori->getCategory();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('artikel/index_category', $data);
+		$this->load->view('templates/footer');
+	}
+	public function create_category()
+	{
+		$data['title'] = 'Tambah Kategori';
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+		$this->form_validation->set_rules('category_name', 'Nama Kategori', 'required|trim');
+		$this->form_validation->set_rules('category_icon', 'Icon Kategori', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('artikel/create_category', $data);
+			$this->load->view('templates/footer');
+		} else {
+			$category_name = $this->input->post('category_name');
+			$category_icon = $this->input->post('category_icon');
+
+			$this->db->set('category_name', $category_name);
+			$this->db->set('category_icon', $category_icon);
+			$this->db->insert('categories');
+
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menyimpan kategori!</div>');
+			redirect('artikel/category');
+		}
+	}
+
+	public function edit_category()
+	{
+		$data['title'] = 'Edit Kategori';
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+		$id_category = $this->input->post('id_category');
+
+		$data['kategori'] = $this->kategori->getCategoryById($id_category);
+
+		$this->form_validation->set_rules('category_name', 'Nama Kategori', 'required|trim');
+		$this->form_validation->set_rules('category_icon', 'Icon Kategori', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/sidebar', $data);
+			$this->load->view('templates/topbar', $data);
+			$this->load->view('artikel/edit_category', $data);
+			$this->load->view('templates/footer');
+		} else {
+			$category_name = $this->input->post('category_name');
+			$category_icon = $this->input->post('category_icon');
+
+			$this->db->set('category_name', $category_name);
+			$this->db->set('category_icon', $category_icon);
+			$this->db->where('id_category', $id_category);
+			$this->db->update('categories');
+
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil mengubah kategori!</div>');
+			redirect('artikel/category');
+		}
+	}
+
+	public function delete_category($id_category)
+	{
+		$this->db->delete('categories', array('id_category' => $id_category));
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil menghapus kategori!</div>');
+		redirect('artikel/category');
+	}
+
+	public function articleCategory($article_id)
+	{
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$data['title'] = 'Kategori Artikel';
+		$data['artikel'] = $this->artikel->getArticleById($article_id);
+
+		$data['kategori'] = $this->kategori->getCategory();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/sidebar', $data);
+		$this->load->view('templates/topbar', $data);
+		$this->load->view('artikel/article_category', $data);
+		$this->load->view('templates/footer');
+	}
+
+	public function changearticlecategory()
+	{
+		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$category_id = $this->input->post('categoryId');
+		$article_id = $this->input->post('articleId');
+
+		$data = [
+			'article_id' => $article_id,
+			'category_id' => $category_id
+		];
+
+		$result = $this->db->get_where('article_categories', $data);
+
+		if ($result->num_rows() < 1) {
+			$this->db->insert('article_categories', $data);
+		} else {
+			$this->db->delete('article_categories', $data);
+		}
+
+		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
 	}
 }
 

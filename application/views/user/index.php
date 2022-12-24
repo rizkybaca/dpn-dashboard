@@ -56,6 +56,7 @@
 											<div class="pt-2">
 												<a href="#" class="btn btn-sm" title="Upload new profile image" style="background-color: #242790; color: white"><i class="bi bi-upload"></i></a>
 												<a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+												
 											</div>
 										</div>
 									</div>
