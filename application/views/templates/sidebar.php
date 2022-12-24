@@ -35,7 +35,7 @@
 					<a href="tambah-program.html"> <span>Tambah Program</span> </a>
 				</li>
 				<li>
-					<a href="list-program.html"> <span>List Program</span> </a>
+					<a href="<?= base_url('program') ?>"> <span>List Program</span> </a>
 				</li>
 			</ul>
 		</li>
