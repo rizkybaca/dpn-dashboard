@@ -2,15 +2,17 @@
 	<div class="pagetitle">
 		<h1 class="judul">List Artikel</h1>
 		<p class="keterangan-judul">Anda dapat mengedit dan menghapus Artikel yang telah di post pada halaman Tambah Artikel</p>
+
 	</div>
 
 	<section class="section dashboard mt-4">
 		<div class="card-artikel col-sm-11">
 			<div class="card">
 				<div class="card-header font-weight-bold text-gray-100" style="background-color: #eeeef0">List Artikel</div>
-
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
+						<?= $this->session->flashdata('message'); ?>
+
 						<div class="table-responsive m-4">
 							<table class="table table-bordered">
 								<tr>

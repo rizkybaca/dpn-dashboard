@@ -20,6 +20,17 @@
 							<label for="post_date" class="mb-3 mt-3">Waktu Post Artikel</label>
 							<input type="date" name="post_date" id="post_date" class="form-control" required>
 						</div>
+						<div class="form-group">
+							<label class="mb-1 mt-3">Pilih kategori untuk artikel ini</label>
+							<?php
+							foreach ($kategori as $k) : ?>
+								<div class="form-check">
+									<label for="category_id<?= $k['id_category'] ?>" class="form-check-label"><?= $k['category_name'] ?></label>
+									<input class="form-check-input category-check-test" id="category_id<?= $k['id_category'] ?>" name="category_id[]" type="checkbox" value="<?= $k['id_category'] ?>">
+								</div>
+							<?php endforeach; ?>
+						</div>
+
 
 						<div class="form-group">
 							<label for="title" class="mb-3 mt-3">Judul Artikel</label>

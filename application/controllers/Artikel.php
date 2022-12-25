@@ -10,14 +10,16 @@ class Artikel extends CI_Controller
 		parent::__construct();
 		is_logged_in();
 		$this->load->model('Article_model', 'artikel');
+		$this->load->model('Article_category_model', 'kategori_artikel');
 		$this->load->model('Category_model', 'kategori');
+		$this->load->model('User_model', 'user');
 	}
 
 	public function index()
 	{
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
-		$data['title'] = 'List Artikel';
 
+		$data['user'] = $this->user->getUserLogin();
+		$data['title'] = 'List Artikel';
 		$data['artikel'] = $this->db->get('articles')->result_array();
 
 		$this->load->view('templates/header', $data);
@@ -30,7 +32,8 @@ class Artikel extends CI_Controller
 	public function create()
 	{
 		$data['title'] = 'Tambah Artikel';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$data['user'] = $this->user->getUserLogin();
+		$data['kategori'] = $this->kategori->getCategory();
 
 		$this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
 		$this->form_validation->set_rules('created_by', 'Penulis', 'required|trim');
@@ -43,49 +46,76 @@ class Artikel extends CI_Controller
 			$this->load->view('artikel/create', $data);
 			$this->load->view('templates/footer');
 		} else {
-			$title = $this->input->post('title');
-			$slug = url_title($title, 'dash', true);
-			$created_by = $this->input->post('created_by');
-			$article_content = $this->input->post('article_content');
-			// $image = $this->input->post('image');
-			$post_date = $this->input->post('post_date');
 
-			$upload_image = $_FILES['image']['name'];
+			if ($this->artikel->storeArticle()) {
 
-			if ($upload_image) {
-				$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
-				$config['max_size']     = '2048';
-				$config['upload_path'] = './assets/img/artikel/';
-				$config['encrypt_name'] = TRUE;
-				$this->load->library('upload', $config);
+				$slug = url_title($this->input->post('title', true), 'dash', true);
 
-				if ($this->upload->do_upload('image')) {
-					$new_image = $this->upload->data('file_name');
-					$this->db->set('image', $new_image);
-				} else {
-					echo $this->upload->display_errors();
+				$new_artikel = $this->artikel->getArticleBySlug($slug);
+
+				$first_check = (@$_POST['category_id'][0]) ? true : false;
+
+				if ($first_check == true) {
+					$pop_category = $this->input->post('category_id');
+					$count_category = count($pop_category);
+
+					for ($i = 0; $i < $count_category; $i++) {
+						$category_id = $pop_category[$i];
+						$this->kategori_artikel->store($new_artikel, $category_id);
+					}
 				}
+
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program Berhasil Ditambahkan!</div>');
+				redirect('artikel');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program gagal ditambahkan!</div>');
+				redirect('artikel');
 			}
 
-			$created_at = time();
 
-			$this->db->set('post_date', $post_date);
-			$this->db->set('title', $title);
-			$this->db->set('slug', $slug);
-			$this->db->set('article_content', $article_content);
-			$this->db->set('created_by', $created_by);
-			$this->db->set('created_at', $created_at);
-			$this->db->insert('articles');
 
-			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
-			redirect('artikel');
+			// $title = $this->input->post('title');
+			// $slug = url_title($title, 'dash', true);
+			// $created_by = $this->input->post('created_by');
+			// $article_content = $this->input->post('article_content');
+			// $post_date = $this->input->post('post_date');
+
+			// $upload_image = $_FILES['image']['name'];
+
+			// if ($upload_image) {
+			// 	$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+			// 	$config['max_size']     = '2048';
+			// 	$config['upload_path'] = './assets/img/artikel/';
+			// 	$config['encrypt_name'] = TRUE;
+			// 	$this->load->library('upload', $config);
+
+			// 	if ($this->upload->do_upload('image')) {
+			// 		$new_image = $this->upload->data('file_name');
+			// 		$this->db->set('image', $new_image);
+			// 	} else {
+			// 		echo $this->upload->display_errors();
+			// 	}
+			// }
+
+			// $created_at = time();
+
+			// $this->db->set('post_date', $post_date);
+			// $this->db->set('title', $title);
+			// $this->db->set('slug', $slug);
+			// $this->db->set('article_content', $article_content);
+			// $this->db->set('created_by', $created_by);
+			// $this->db->set('created_at', $created_at);
+			// $this->db->insert('articles');
+
+			// $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
+			// redirect('artikel');
 		}
 	}
 
 	public function edit($id_article)
 	{
 		$data['title'] = 'Form Ubah Data Artikel';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+		$data['user'] = $this->user->getUserLogin();
 
 		$data['artikel'] = $this->artikel->getArticleById($id_article);
 		$data['kategori'] = $this->kategori->getCategory();
@@ -104,6 +134,24 @@ class Artikel extends CI_Controller
 		} else {
 
 			if ($this->artikel->updateArticle()) {
+
+				$slug = url_title($this->input->post('title', true), 'dash', true);
+
+				$new_artikel = $this->artikel->getArticleBySlug($slug);
+
+				$first_check = (@$_POST['category_id'][0]) ? true : false;
+
+				if ($first_check == true) {
+					$pop_category = $this->input->post('category_id');
+					$count_category = count($pop_category);
+
+					$this->kategori_artikel->delete($new_artikel['id_article']);
+					for ($i = 0; $i < $count_category; $i++) {
+						$category_id = $pop_category[$i];
+						$this->kategori_artikel->store($new_artikel, $category_id);
+					}
+				}
+
 				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diubah!</div>');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"Artikel gagal diubah!</div>');

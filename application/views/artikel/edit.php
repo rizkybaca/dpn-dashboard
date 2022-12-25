@@ -25,6 +25,17 @@
 						</div>
 
 						<div class="form-group">
+							<label class="mb-1 mt-3">Pilih kategori untuk artikel ini</label>
+							<?php
+							foreach ($kategori as $k) : ?>
+								<div class="form-check">
+									<label for="category_id<?= $k['id_category'] ?>" class="form-check-label"><?= $k['category_name'] ?></label>
+									<input <?= check_category($artikel['id_article'], $k['id_category']); ?> class="form-check-input category-check-test" id="category_id<?= $k['id_category'] ?>" name="category_id[]" type="checkbox" value="<?= $k['id_category'] ?>">
+								</div>
+							<?php endforeach; ?>
+						</div>
+
+						<div class="form-group">
 							<label for="title" class="mb-3 mt-3">Judul Artikel</label>
 							<input type="text" id="title" name="title" class="form-control" required value="<?= $artikel['title'] ?>">
 							<?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>

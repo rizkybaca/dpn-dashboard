@@ -3,9 +3,9 @@
 <!-- panggil ckeditor.js -->
 <script type="text/javascript" src="<?= base_url('assets/') ?>ckeditor/config.js"></script>
 <!-- panggil adapter jquery ckeditor -->
+<script type="text/javascript" src="<?= base_url('assets/') ?>ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="<?= base_url('assets/') ?>ckeditor/adapters/jquery.js"></script>
 <!-- setup selector -->
-<script type="text/javascript" src="<?= base_url('assets/') ?>ckeditor/ckeditor.js"></script>
 
 <script src="<?= base_url('assets/'); ?>js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url('assets/'); ?>js/main.js"></script>

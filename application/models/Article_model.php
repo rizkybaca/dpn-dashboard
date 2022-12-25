@@ -15,9 +15,52 @@ class Article_model extends CI_Model
 	{
 		return $this->db->get_where('articles', ['id_article' => $article_id])->row_array();
 	}
+
+	public function getArticleBySlug($slug)
+	{
+		return $this->db->get_where('articles', ['slug' => $slug])->row_array();
+	}
 	public function countArticle()
 	{
 		return $this->db->get('articles')->num_rows();
+	}
+
+	public function storeArticle()
+	{
+		$data = [
+			"title" => $this->input->post('title', true),
+			"created_by" => $this->input->post('created_by', true),
+			"article_content" => $this->input->post('article_content', true),
+			"post_date" => $this->input->post('post_date', true)
+		];
+
+		$data += [
+			"slug" => url_title($data['title'], 'dash', true),
+			"created_at" => time()
+
+		];
+
+		$upload_image = (@$_FILES['image']['name']) ? true : false;
+
+		if ($upload_image == true) {
+			$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+			$config['max_size']     = '2048';
+			$config['upload_path'] = './assets/img/artikel/';
+			$config['encrypt_name'] = TRUE;
+			$this->load->library('upload', $config);
+
+			if ($this->upload->do_upload('image')) {
+				$new_image = $this->upload->data('file_name');
+				// $this->db->set('image', $new_image);
+				$data += [
+					"image" => $new_image
+				];
+			} else {
+				echo $this->upload->display_errors();
+			}
+		}
+
+		return $this->db->insert('articles', $data);
 	}
 
 	public function updateArticle()
