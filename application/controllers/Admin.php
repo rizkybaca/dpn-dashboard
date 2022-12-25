@@ -7,12 +7,17 @@ class Admin extends CI_Controller
 	{
 		parent::__construct();
 		is_logged_in();
+		$this->load->model('Article_model', 'artikel');
+		$this->load->model('Program_model', 'program');
 	}
 
 	public function index()
 	{
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 		$data['title'] = 'Dashboard';
+		$data['count_artikel'] = $this->artikel->countArticle();
+		$data['count_program'] = $this->program->countProgram();
+
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/sidebar', $data);

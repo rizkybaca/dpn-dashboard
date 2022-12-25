@@ -13,6 +13,10 @@ class Program_model extends CI_Model
 	{
 		return $this->db->get_where('programs', ['id_program' => $id_program])->row_array();
 	}
+	public function countProgram()
+	{
+		return $this->db->get('programs')->num_rows();
+	}
 	public function storeProgram()
 	{
 

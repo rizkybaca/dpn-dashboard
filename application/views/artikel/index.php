@@ -28,7 +28,7 @@
 									<tr>
 										<td><?= $i++; ?></td>
 										<td><?= $a['title'] ?></td>
-										<td><?= $a['post_date'] ?></td>
+										<td><?= date('d M Y', strtotime($a['post_date'])) ?></td>
 										<td>
 											<img src="<?= base_url('assets/img/artikel/') . $a['image']; ?>" alt="banner" style="width:128px;height:128px;object-fit: cover;">
 										</td>

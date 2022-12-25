@@ -27,41 +27,50 @@ class User extends CI_Controller
 		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
 		$this->form_validation->set_rules('name', 'Full name', 'required|trim');
+		$this->form_validation->set_rules('job', 'Job', 'required|trim');
+		$this->form_validation->set_rules('organization', 'Organization', 'required|trim');
+		$this->form_validation->set_rules('about', 'About', 'required|trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/sidebar', $data);
 			$this->load->view('templates/topbar', $data);
-			$this->load->view('user/edit', $data);
+			$this->load->view('user', $data);
 			$this->load->view('templates/footer');
 		} else {
 			$name = $this->input->post('name');
-			$email = $this->input->post('email');
+			$job = $this->input->post('job');
+			$organization = $this->input->post('organization');
+			$about = $this->input->post('about');
+			$id = $this->input->post('id');
 
-			$upload_image = $_FILES['image']['name'];
+			// $upload_image = $_FILES['image']['name'];
 
-			if ($upload_image) {
-				$config['allowed_types'] = 'gif|jpg|png';
-				$config['max_size']     = '2048';
-				$config['upload_path'] = './assets/img/profile/';
-				$this->load->library('upload', $config);
+			// if ($upload_image) {
+			// 	$config['allowed_types'] = 'gif|jpg|png';
+			// 	$config['max_size']     = '2048';
+			// 	$config['upload_path'] = './assets/img/profile/';
+			// 	$this->load->library('upload', $config);
 
-				if ($this->upload->do_upload('image')) {
-					$old_image = $data['user']['image'];
+			// 	if ($this->upload->do_upload('image')) {
+			// 		$old_image = $data['user']['image'];
 
-					if ($old_image != 'default.jpg') {
-						unlink(FCPATH . 'assets/img/profile/' . $old_image);
-					}
+			// 		if ($old_image != 'default.jpg') {
+			// 			unlink(FCPATH . 'assets/img/profile/' . $old_image);
+			// 		}
 
-					$new_image = $this->upload->data('file_name');
-					$this->db->set('image', $new_image);
-				} else {
-					echo $this->upload->display_errors();
-				}
-			}
+			// 		$new_image = $this->upload->data('file_name');
+			// 		$this->db->set('image', $new_image);
+			// 	} else {
+			// 		echo $this->upload->display_errors();
+			// 	}
+			// }
 
 			$this->db->set('name', $name);
-			$this->db->where('email', $email);
+			$this->db->set('job', $job);
+			$this->db->set('organization', $organization);
+			$this->db->set('about', $about);
+			$this->db->where('id', $id);
 			$this->db->update('user');
 
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
@@ -82,7 +91,7 @@ class User extends CI_Controller
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/sidebar', $data);
 			$this->load->view('templates/topbar', $data);
-			$this->load->view('user/change-password', $data);
+			$this->load->view('user', $data);
 			$this->load->view('templates/footer');
 		} else {
 			$current_password = $this->input->post('current_password');

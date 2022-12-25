@@ -11,10 +11,10 @@
 						<div class="card info-card artikel-card">
 							<div class="card-body">
 								<div class="d-flex align-items-center p-3 mt-3">
-									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="/assets/img/icon/Group 344.png" alt="" /></div>
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="<?= base_url() ?>/assets/img/icon/Group-344.png" alt="" /></div>
 
 									<div class="ps-3">
-										<h6>10</h6>
+										<h6><?= $count_artikel ?></h6>
 										<span class="text-muted small pt-2 ps-1">Artikel</span>
 									</div>
 								</div>
@@ -25,9 +25,9 @@
 						<div class="card info-card program-card">
 							<div class="card-body">
 								<div class="d-flex align-items-center p-3 mt-3">
-									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="/assets/img/icon/Group 345.png" alt="" /></div>
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="<?= base_url() ?>/assets/img/icon/Group-345.png" alt="" /></div>
 									<div class="ps-3">
-										<h6>10</h6>
+										<h6><?= $count_program ?></h6>
 										<span class="text-muted small pt-2 ps-1">Program</span>
 									</div>
 								</div>

@@ -30,8 +30,7 @@
 							<div class="tab-pane fade show active profile-overview" id="profile-overview">
 								<h5 class="card-title">About</h5>
 								<p class="small fst-italic">
-									Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio nisi, accusamus veniam dignissimos iusto expedita recusandae pariatur quidem quae ipsum minus dicta.
-									Accusantium quos odit tempore? Placeat pariatur tempore quae.
+									<?= $user['about'] ?>
 								</p>
 								<h5 class="card-title">Profile Details</h5>
 								<div class="row">
@@ -39,16 +38,17 @@
 									<div class="col-lg-9 col-md-8"><?= $user['name']; ?></div>
 								</div>
 								<div class="row">
-									<div class="col-lg-3 col-md-4 label">Organisation</div>
-									<div class="col-lg-9 col-md-8">DPN</div>
+									<div class="col-lg-3 col-md-4 label">Organization</div>
+									<div class="col-lg-9 col-md-8"><?= $user['organization'] ?></div>
 								</div>
 								<div class="row">
 									<div class="col-lg-3 col-md-4 label">Job</div>
-									<div class="col-lg-9 col-md-8">Developing and Engineering Manager</div>
+									<div class="col-lg-9 col-md-8"><?= $user['job'] ?></div>
 								</div>
 							</div>
 							<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 								<form action="<?= base_url('user/edit'); ?>" method="POST" enctype="multipart/form-data">
+									<input type="hidden" name="id" value="<?= $user['id']; ?>">
 									<div class="row mb-3">
 										<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
 										<div class="col-md-8 col-lg-9">
@@ -56,30 +56,30 @@
 											<div class="pt-2">
 												<a href="#" class="btn btn-sm" title="Upload new profile image" style="background-color: #242790; color: white"><i class="bi bi-upload"></i></a>
 												<a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-												
+
 											</div>
 										</div>
 									</div>
 									<div class="row mb-3">
 										<label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
 										<div class="col-md-8 col-lg-9">
-											<input name="name" type="text" class="form-control" id="name" value="<?= $user['name']; ?>" />
+											<input name="name" type="text" class="form-control" id="name" value="<?= $user['name']; ?>" required />
 											<?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
 										</div>
 									</div>
 									<div class="row mb-3">
 										<label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
 										<div class="col-md-8 col-lg-9">
-											<textarea name="about" class="form-control" id="about" style="height: 100px">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem quam quia, deleniti porro quasi eaque sed iusto. Blanditiis quidem facere autem vel repudiandae et? Corrupti doloremque labore consectetur dolorum laudantium!</textarea>
+											<textarea required name="about" class="form-control" id="about" style="height: 100px"><?= $user['about'] ?></textarea>
 										</div>
 									</div>
 									<div class="row mb-3">
-										<label for="company" class="col-md-4 col-lg-3 col-form-label">Organisation</label>
-										<div class="col-md-8 col-lg-9"><input name="company" type="text" class="form-control" id="company" value="DPN" /></div>
+										<label for="organization" class="col-md-4 col-lg-3 col-form-label">Organization</label>
+										<div class="col-md-8 col-lg-9"><input required name="organization" type="text" class="form-control" id="organization" value="<?= $user['organization'] ?>" /></div>
 									</div>
 									<div class="row mb-3">
-										<label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-										<div class="col-md-8 col-lg-9"><input name="job" type="text" class="form-control" id="Job" value="Developing and Engineering Manager" /></div>
+										<label for="job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+										<div class="col-md-8 col-lg-9"><input required name="job" type="text" class="form-control" id="job" value="<?= $user['job'] ?>" /></div>
 									</div>
 
 									<div class="text-center"><button type="submit" class="btn" style="background-color: #242790; color: white">Save Changes</button></div>
@@ -91,7 +91,7 @@
 									<div class="row mb-3">
 										<label for="current_password" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
 										<div class="col-md-8 col-lg-9">
-											<input name="password" type="password" class="form-control" id="current_password" name="current_password">
+											<input name="current_password" type="password" class="form-control" id="current_password" name="current_password">
 											<?= form_error('current_password', '<small class="text-danger pl-3">', '</small>'); ?>
 										</div>
 									</div>

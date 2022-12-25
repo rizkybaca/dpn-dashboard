@@ -15,6 +15,10 @@ class Article_model extends CI_Model
 	{
 		return $this->db->get_where('articles', ['id_article' => $article_id])->row_array();
 	}
+	public function countArticle()
+	{
+		return $this->db->get('articles')->num_rows();
+	}
 
 	public function updateArticle()
 	{
@@ -63,7 +67,7 @@ class Article_model extends CI_Model
 	public function deleteArticle($id_article)
 	{
 		// $this->db->where('id', $id);
-		
+
 		return $this->db->delete('articles', ['id_article' => $id_article]);
 	}
 }

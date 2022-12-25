@@ -25,7 +25,6 @@
 							<label for="title" class="mb-3 mt-3">Judul Artikel</label>
 							<input type="text" id="title" name="title" class="form-control" required>
 							<?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
-
 						</div>
 						<div class="form-group">
 							<label for="created_by" class="mb-3 mt-3">Ditulis oleh</label>
