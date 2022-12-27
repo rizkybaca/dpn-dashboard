@@ -70,6 +70,7 @@
 				}
 			});
 		});
+
 		$('#check-benefit').on('click', function() {
 			const benefitId = $(this).data('benefit');
 			const programId = $(this).data('program');
@@ -86,6 +87,65 @@
 				}
 			});
 		});
+
+		$('.cek-tipe-nih').on('click', function() {
+
+			var programTypeId = $(this).val();
+			$.ajax({
+				url: "<?= base_url('program/pt') ?>",
+				type: 'post',
+				data: {
+					programTypeId: programTypeId
+				},
+				success: function(respond) {
+					$("#fill_path").html(respond);
+				}
+			});
+
+			$.ajax({
+				url: "<?= base_url('program/benefit_program') ?>",
+				type: 'post',
+				data: {
+					programTypeId: programTypeId
+				},
+				success: function(respond) {
+					$("#fill_benefit").html(respond);
+				}
+			});
+
+		});
+
+		$('.cek-edit-tipe-nih').on('click', function() {
+
+			var programTypeId = $(this).val();
+			const programId = $(this).data('program');
+
+			$.ajax({
+				url: "<?= base_url('program/checkeditprogrampath') ?>",
+				type: 'post',
+				data: {
+					programTypeId: programTypeId,
+					programId: programId
+				},
+				success: function(respond) {
+					$("#fill_path_edit").html(respond);
+				}
+			});
+
+			$.ajax({
+				url: "<?= base_url('program/checkeditprogrambenefit') ?>",
+				type: 'post',
+				data: {
+					programTypeId: programTypeId,
+					programId: programId
+				},
+				success: function(respond) {
+					$("#fill_benefit_edit").html(respond);
+				}
+			});
+
+		});
+
 	});
 </script>
 </body>

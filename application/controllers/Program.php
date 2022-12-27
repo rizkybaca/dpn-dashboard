@@ -15,6 +15,7 @@ class Program extends CI_Controller
 		$this->load->model('Path_model', 'path');
 		$this->load->model('Program_path_model', 'programpath');
 		$this->load->model('Benefit_model', 'benefit');
+		$this->load->model('Program_benefit_model', 'programbenefit');
 	}
 
 	public function index()
@@ -37,6 +38,8 @@ class Program extends CI_Controller
 		$data['title'] = 'Tambah Program';
 		$data['tipe_program'] = $this->program_type->getProgramType();
 
+		$data['jalur'] = $this->path->getPath();
+
 		$this->form_validation->set_rules('title', 'Judul', 'required|trim');
 		$this->form_validation->set_rules('location', 'Lokasi', 'required|trim');
 		$this->form_validation->set_rules('work_method', 'Metode Pelaksanaan', 'required|trim');
@@ -51,6 +54,37 @@ class Program extends CI_Controller
 			$this->load->view('templates/footer');
 		} else {
 			if ($this->program->storeProgram()) {
+
+				$slug = url_title($this->input->post('title', true), 'dash', true);
+
+				$new_program = $this->program->getProgramBySlug($slug);
+
+				$first_path_check = (@$_POST['path_id'][0]) ? true : false;
+
+				if ($first_path_check == true) {
+					$pop_path = $this->input->post('path_id');
+					$pop_cta_link = $this->input->post('cta_link');
+					$count_path = count($pop_path);
+
+					for ($i = 0; $i < $count_path; $i++) {
+						$path_id = $pop_path[$i];
+						$cta_link = $pop_cta_link[$i];
+						$this->programpath->store($new_program, $path_id, $cta_link);
+					}
+				}
+
+				$first_benefit_check = (@$_POST['benefit_id'][0]) ? true : false;
+
+				if ($first_benefit_check == true) {
+					$pop_benefit = $this->input->post('benefit_id');
+					$count_benefit = count($pop_benefit);
+
+					for ($i = 0; $i < $count_benefit; $i++) {
+						$benefit_id = $pop_benefit[$i];
+						$this->programbenefit->store($new_program, $benefit_id);
+					}
+				}
+
 				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program Berhasil Ditambahkan!</div>');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program Gagal Ditambahkan!</div>');
@@ -67,6 +101,13 @@ class Program extends CI_Controller
 		$data['program'] = $this->program->getProgramById($id_program);
 		$data['tipe_program'] = $this->program_type->getProgramType();
 
+		$data['jalur'] = $this->path->getPathByProgramTypeId($data['program']['program_type_id']);
+		$data['manfaat'] = $this->benefit->getBenefitByProgramTypeId($data['program']['program_type_id']);
+
+		// $data['jalur_program'] = $this->programpath->getProgramPathsByProgramIdAndPathId($data['program']['id_program'], $data['']);
+		// echo var_dump($data['jalur']);
+		// die();
+
 		$this->form_validation->set_rules('title', 'Judul', 'required|trim');
 		$this->form_validation->set_rules('location', 'Lokasi', 'required|trim');
 		$this->form_validation->set_rules('work_method', 'Metode Pelaksanaan', 'required|trim');
@@ -81,6 +122,38 @@ class Program extends CI_Controller
 			$this->load->view('templates/footer');
 		} else {
 			if ($this->program->updateProgram()) {
+
+				$slug = url_title($this->input->post('title', true), 'dash', true);
+
+				$new_program = $this->program->getProgramBySlug($slug);
+				$this->programpath->delete($new_program['id_program']);
+				$this->programbenefit->delete($new_program['id_program']);
+
+				$first_path_check = (@$_POST['path_id'][0]) ? true : false;
+				$first_benefit_check = (@$_POST['benefit_id'][0]) ? true : false;
+
+				if ($first_path_check == true) {
+					$pop_path = $this->input->post('path_id');
+					$pop_cta_link = $this->input->post('cta_link');
+					$count_path = count($pop_path);
+
+					for ($i = 0; $i < $count_path; $i++) {
+						$path_id = $pop_path[$i];
+						$cta_link = $pop_cta_link[$i];
+						$this->programpath->store($new_program, $path_id, $cta_link);
+					}
+				}
+
+				if ($first_benefit_check == true) {
+					$pop_benefit = $this->input->post('benefit_id');
+					$count_category = count($pop_benefit);
+
+					for ($i = 0; $i < $count_category; $i++) {
+						$benefit_id = $pop_benefit[$i];
+						$this->programbenefit->store($new_program, $benefit_id);
+					}
+				}
+
 				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program Berhasil Diubah!</div>');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Program Gagal Diubah!</div>');
@@ -109,6 +182,9 @@ class Program extends CI_Controller
 			if ($old_video != 'default.mp4') {
 				unlink(FCPATH . './assets/video/program/video_preview/' . $old_video);
 			}
+
+			$this->programpath->delete($id_program);
+			$this->programbenefit->delete($id_program);
 
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Program berhasil dihapus!</div>');
 		} else {
@@ -353,83 +429,109 @@ class Program extends CI_Controller
 		redirect('program/benefit');
 	}
 
-	public function program_path($program_id)
+	// public function program_path($program_id)
+	// {
+
+	// 	$data['user'] = $this->user->getUserLogin();
+	// 	$data['title'] = 'Jalur Program';
+	// 	$data['program'] = $this->program->getProgramById($program_id);
+
+	// 	$data['jalur'] = $this->path->getPath();
+
+	// 	$this->load->view('templates/header', $data);
+	// 	$this->load->view('templates/sidebar', $data);
+	// 	$this->load->view('templates/topbar', $data);
+	// 	$this->load->view('program/program_path', $data);
+	// 	$this->load->view('templates/footer');
+	// }
+
+	// public function cp()
+	// {
+
+	// 	$data['user'] = $this->user->getUserLogin();
+	// 	$path_id = $this->input->post('pathId');
+	// 	$program_id = $this->input->post('programId');
+	// 	$cta_link = $this->input->post('cta_link');
+
+	// 	$data = [
+	// 		'program_id' => $program_id,
+	// 		'path_id' => $path_id,
+	// 		'cta_link' => $cta_link
+	// 	];
+
+	// 	$result = $this->db->get_where('program_paths', $data);
+
+	// 	if ($result->num_rows() < 1) {
+	// 		$this->db->insert('program_paths', $data);
+	// 	} else {
+	// 		$this->db->delete('program_paths', $data);
+	// 	}
+
+	// 	$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
+	// }
+
+	// public function program_benefit($program_id)
+	// {
+
+	// 	$data['user'] = $this->user->getUserLogin();
+	// 	$data['title'] = 'Manfaat Program';
+	// 	$data['program'] = $this->program->getProgramById($program_id);
+
+	// 	$data['manfaat'] = $this->benefit->getBenefit();
+
+	// 	$this->load->view('templates/header', $data);
+	// 	$this->load->view('templates/sidebar', $data);
+	// 	$this->load->view('templates/topbar', $data);
+	// 	$this->load->view('program/program_benefit', $data);
+	// 	$this->load->view('templates/footer');
+	// }
+	// public function pb()
+	// {
+
+	// 	$data['user'] = $this->user->getUserLogin();
+	// 	$benefit_id = $this->input->post('benefitId');
+	// 	$program_id = $this->input->post('programId');
+
+	// 	$data = [
+	// 		'program_id' => $program_id,
+	// 		'benefit_id' => $benefit_id
+	// 	];
+
+	// 	$result = $this->db->get_where('program_benefits', $data);
+
+	// 	if ($result->num_rows() < 1) {
+	// 		$this->db->insert('program_benefits', $data);
+	// 	} else {
+	// 		$this->db->delete('program_benefits', $data);
+	// 	}
+
+	// 	$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
+	// }
+
+	public function pt()
 	{
-
-		$data['user'] = $this->user->getUserLogin();
-		$data['title'] = 'Jalur Program';
-		$data['program'] = $this->program->getProgramById($program_id);
-
-		$data['jalur'] = $this->path->getPath();
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
-		$this->load->view('program/program_path', $data);
-		$this->load->view('templates/footer');
+		$program_type_id = $_POST['programTypeId'];
+		echo $this->path->getPathForCheckedByProgramTypeId($program_type_id);
 	}
 
-	public function cp()
+	public function benefit_program()
 	{
-
-		$data['user'] = $this->user->getUserLogin();
-		$path_id = $this->input->post('pathId');
-		$program_id = $this->input->post('programId');
-		$cta_link = $this->input->post('cta_link');
-
-		$data = [
-			'program_id' => $program_id,
-			'path_id' => $path_id,
-			'cta_link' => $cta_link
-		];
-
-		$result = $this->db->get_where('program_paths', $data);
-
-		if ($result->num_rows() < 1) {
-			$this->db->insert('program_paths', $data);
-		} else {
-			$this->db->delete('program_paths', $data);
-		}
-
-		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
+		$program_type_id = $_POST['programTypeId'];
+		echo $this->benefit->getBenefitForCheckedByProgramTypeId($program_type_id);
 	}
 
-	public function program_benefit($program_id)
+	public function checkeditprogrampath()
 	{
-
-		$data['user'] = $this->user->getUserLogin();
-		$data['title'] = 'Manfaat Program';
-		$data['program'] = $this->program->getProgramById($program_id);
-
-		$data['manfaat'] = $this->benefit->getBenefit();
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/sidebar', $data);
-		$this->load->view('templates/topbar', $data);
-		$this->load->view('program/program_benefit', $data);
-		$this->load->view('templates/footer');
+		$program_type_id = $_POST['programTypeId'];
+		$program_id = $_POST['programId'];
+		echo $this->path->getPathForCheckedEditByProgramTypeIdAndProgramId($program_type_id, $program_id);
 	}
-	public function pb()
+
+	public function checkeditprogrambenefit()
 	{
-
-		$data['user'] = $this->user->getUserLogin();
-		$benefit_id = $this->input->post('benefitId');
-		$program_id = $this->input->post('programId');
-
-		$data = [
-			'program_id' => $program_id,
-			'benefit_id' => $benefit_id
-		];
-
-		$result = $this->db->get_where('program_benefits', $data);
-
-		if ($result->num_rows() < 1) {
-			$this->db->insert('program_benefits', $data);
-		} else {
-			$this->db->delete('program_benefits', $data);
-		}
-
-		$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Access changed!</div>');
+		$program_type_id = $_POST['programTypeId'];
+		$program_id = $_POST['programId'];
+		echo $this->benefit->getBenefitForCheckedEditByProgramTypeIdAndProgramId($program_type_id, $program_id);
 	}
 }
 

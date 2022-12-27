@@ -22,9 +22,10 @@
 						</div>
 						<div class="form-group">
 							<label class="mb-1 mt-3">Pilih kategori untuk artikel ini</label>
+							<br>
 							<?php
 							foreach ($kategori as $k) : ?>
-								<div class="form-check">
+								<div class="form-check form-check-inline">
 									<label for="category_id<?= $k['id_category'] ?>" class="form-check-label"><?= $k['category_name'] ?></label>
 									<input class="form-check-input category-check-test" id="category_id<?= $k['id_category'] ?>" name="category_id[]" type="checkbox" value="<?= $k['id_category'] ?>">
 								</div>

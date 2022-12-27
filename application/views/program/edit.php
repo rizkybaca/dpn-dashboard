@@ -17,14 +17,15 @@
 						<input type="hidden" name="old_banner" value="<?= $program['banner']; ?>">
 						<input type="hidden" name="old_video" value="<?= $program['video']; ?>">
 
+						<!-- start choose program type -->
 						<div class="form-group">
-							<label for="program_type_id" class="mb-3 mt-3">Pilih Tipe Program</label><br>
+							<label for="program_type_id" class="mb-1 mt-3">Pilih Tipe Program</label><br>
 							<?php
 							foreach ($tipe_program as $tp) {
 								$selected = ($tp['id_program_type'] == $program['program_type_id']) ? 'checked' : '';
 							?>
 								<div class="form-check form-check form-check-inline">
-									<input <?= $selected; ?> class="form-check-input" type="radio" name="program_type_id" id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>" required>
+									<input <?= $selected; ?> class="form-check-input cek-edit-tipe-nih" type="radio" name="program_type_id" id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>" data-pt="<?= $tp['id_program_type'] ?>" data-program="<?= $program['id_program'] ?>" required>
 									<label class="form-check-label" for="<?= $tp['id_program_type'] ?>">
 										<?= $tp['program_type_name'] ?>
 									</label>
@@ -33,7 +34,39 @@
 							}
 							?>
 						</div>
+						<!-- end choose program type -->
+
 						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
+
+						<!-- start choose path -->
+						<div class="form-group">
+							<label class="mb-1 mt-3">Pilih jalur untuk program ini</label><br>
+							<div id="fill_path_edit">
+								<?php
+								$count = count($jalur);
+								if ($count <= 0) { ?>
+									<label class='fst-italic text-danger'>belum ada jalur pada tipe program ini!</label><br>
+								<?php } else {
+								?>
+									<?php
+									foreach ($jalur as $j) { ?>
+										<div class="row align-items-center mb-2 text-dark fst-normal">
+											<div class="col col-sm-12 col-lg-6 col-md-12 ">
+												<input <?= check_cta_link_path($program['id_program'], $j['id_path']); ?> type="text" id="cta_link<?= $j['id_path'] ?>" name="cta_link[]" class="form-control" placeholder="link daftar jalur">
+											</div>
+											<div class="col">
+												<div class="form-check form-check-inline">
+													<label for="path_id<?= $j['id_path'] ?>" class="form-check-label"><?= $j['path_name'] ?></label>
+													<input <?= check_path($program['id_program'], $j['id_path']); ?> class="form-check-input" id="path_id<?= $j['id_path'] ?>" name="path_id[]" type="checkbox" value="<?= $j['id_path'] ?>">
+												</div>
+											</div>
+										</div>
+								<?php }
+								}
+								?>
+							</div>
+						</div>
+						<!-- end choose path -->
 
 						<div class="form-group">
 							<label for="image" class="mb-3 mt-3">Gambar Program</label>
@@ -130,6 +163,37 @@
 							<label for="ckedtor" class="mb-3 mt-3">Detail Kegiatan</label>
 							<textarea class="ckeditor" name="program_description" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"><?= $program['program_description'] ?></textarea>
 						</div>
+
+						<!-- start choose benefit -->
+						<!-- <div class="form-group">
+							<label class="mb-1 mt-3">Pilih manfaat untuk program ini</label><br>
+							<label class="fst-italic text-danger" id="fill_benefit">pilih tipe program dahulu!</label><br>
+						</div> -->
+						<!-- end choose benefit -->
+
+						<!-- start choose path -->
+						<div class="form-group">
+							<label class="mb-1 mt-3">Pilih manfaat untuk program ini</label><br>
+
+							<div id="fill_benefit_edit">
+								<?php
+								$count = count($manfaat);
+								if ($count <= 0) { ?>
+									<label class='fst-italic text-danger'>belum ada manfaat pada tipe program ini!</label><br>
+								<?php } else {
+								?>
+									<?php
+									foreach ($manfaat as $m) { ?>
+										<div class='form-check form-check-inline text-dark fst-normal'>
+											<label for='benefit_id<?= $m['id_benefit'] ?>' class='form-check-label'><?= $m['benefit_name'] ?></label>
+											<input class='form-check-input' <?= check_benefit($program['id_program'], $m['id_benefit']) ?> id='benefit_id<?= $m['id_benefit'] ?>' name='benefit_id[]' type='checkbox' value='<?= $m['id_benefit'] ?>'>
+										</div>
+								<?php }
+								}
+								?>
+							</div>
+						</div>
+						<!-- end choose path -->
 
 						<!-- program benefit -->
 						<!-- <div class="form-group">

@@ -138,14 +138,14 @@ class Artikel extends CI_Controller
 				$slug = url_title($this->input->post('title', true), 'dash', true);
 
 				$new_artikel = $this->artikel->getArticleBySlug($slug);
+				$this->kategori_artikel->delete($new_artikel['id_article']);
 
 				$first_check = (@$_POST['category_id'][0]) ? true : false;
 
 				if ($first_check == true) {
 					$pop_category = $this->input->post('category_id');
 					$count_category = count($pop_category);
-
-					$this->kategori_artikel->delete($new_artikel['id_article']);
+					
 					for ($i = 0; $i < $count_category; $i++) {
 						$category_id = $pop_category[$i];
 						$this->kategori_artikel->store($new_artikel, $category_id);
@@ -169,6 +169,9 @@ class Artikel extends CI_Controller
 			if ($old_image != 'default.jpg') {
 				unlink(FCPATH . 'assets/img/artikel/' . $old_image);
 			}
+
+			$this->kategori_artikel->delete($id_article);
+
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil dihapus!</div>');
 		} else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert"Artikel gagal dihapus!</div>');
