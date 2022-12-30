@@ -62,10 +62,8 @@ function check_cta_link_path($program_id, $path_id)
 	]);
 
 	if ($result->num_rows() > 0) {
-		$result->row_array();
-		// echo var_dump();
-		// die();
-		return "value='" . $result->result_array[0]['cta_link'] . "'";;
+		$result->result_array();
+		return "value='" . $result->result_array[0]['cta_link'] . "'";
 	}
 }
 

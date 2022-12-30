@@ -70,11 +70,13 @@
 							<label for="" class="mb-3 mt-3">Tanggal Pelaksanaan</label>
 							<div class="row gx-3 gy-2 align-items-center">
 								<div class="col-sm-3">
-									<input type="date" name="start" id="start" class="form-control" required>
+									<input type="date" name="start" id="start" class="form-control mb-1" required>
+									<input type="time" name="start_time" id="start" class="form-control" required>
 								</div>
 								<div class="col-sm-2 text-center" style="color: #777c83">Sampai</div>
 								<div class="col-sm-3">
-									<input type="date" name="end" id="end" class="form-control" required>
+									<input type="date" name="end" id="end" class="form-control mb-1" required>
+									<input type="time" name="end_time" id="end" class="form-control" required>
 								</div>
 							</div>
 						</div>

@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap");
+:root {
+  --pr-color: #242790;
+}
+* {
+  z-index: 2;
+  font-family: "Lato", sans-serif;
+}
+
+body,
+html {
+  height: 100%;
+  background: #f8f8f8;
+}
+
+/* Admin-Login Page */
+
+.card {
+  border-radius: 12px;
+}
+
+.login-teks {
+  font-size: 24px;
+  font-style: bold;
+  color: #000000;
+}
+.show,
+.hide {
+  position: absolute;
+  right: 60px;
+  top: 358px;
+  font-size: 14px;
+  color: #777c83;
+}
+
+.hide {
+  display: none;
+}
+.tombol-submit {
+  background-color: var(--pr-color);
+}
+
+/* end login page */

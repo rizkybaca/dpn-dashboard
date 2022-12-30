@@ -37,6 +37,20 @@
 						<!-- end choose program type -->
 
 						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
+						<?php
+						foreach ($jalur as $j) {
+						?>
+							<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-text">
+										<input class="form-check-input mt-0" <?= check_path($program['id_program'], $j['id_path']); ?> name="check[]" value="<?= $j['id_path'] ?>" type="checkbox" aria-label="Checkbox for following text input">
+									</div>
+									<input type="text" <?= check_cta_link_path($program['id_program'], $j['id_path']); ?> name="text[]" class="form-control" aria-label="Text input with checkbox">
+								</div>
+							</div>
+						<?php
+						}
+						?>
 
 						<!-- start choose path -->
 						<div class="form-group">
@@ -53,6 +67,7 @@
 										<div class="row align-items-center mb-2 text-dark fst-normal">
 											<div class="col col-sm-12 col-lg-6 col-md-12 ">
 												<input <?= check_cta_link_path($program['id_program'], $j['id_path']); ?> type="text" id="cta_link<?= $j['id_path'] ?>" name="cta_link[]" class="form-control" placeholder="link daftar jalur">
+												<div id="cta_link<?= $j['id_path'] ?>" class="form-text">We'll never share your email with anyone else.</div>
 											</div>
 											<div class="col">
 												<div class="form-check form-check-inline">
@@ -96,11 +111,15 @@
 							<label for="" class="mb-3 mt-3">Tanggal Pelaksanaan</label>
 							<div class="row gx-3 gy-2 align-items-center">
 								<div class="col-sm-3">
-									<input type="date" name="start" id="start" class="form-control" value="<?= date('Y-m-d', $program['start']) ?>" required>
+									<input type="date" name="start" id="start" class="form-control" value="<?= date('Y-m-d', strtotime($program['start'])) ?>" required>
+									<input type="time" name="start_time" id="start" class="form-control" value="<?= date('H:i', strtotime($program['start'])) ?>" required>
+
 								</div>
 								<div class="col-sm-2 text-center" style="color: #777c83">Sampai</div>
 								<div class="col-sm-3">
-									<input type="date" name="end" id="end" class="form-control" value="<?= date('Y-m-d', $program['end']) ?>" required>
+									<input type="date" name="end" id="end" class="form-control" value="<?= date('Y-m-d', strtotime($program['end'])) ?>" required>
+									<input type="time" value="<?= date('H:i', strtotime($program['end'])) ?>" name="end_time" id="end" class="form-control" required>
+
 								</div>
 							</div>
 						</div>

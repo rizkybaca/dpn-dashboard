@@ -116,10 +116,8 @@
 		});
 
 		$('.cek-edit-tipe-nih').on('click', function() {
-
 			var programTypeId = $(this).val();
 			const programId = $(this).data('program');
-
 			$.ajax({
 				url: "<?= base_url('program/checkeditprogrampath') ?>",
 				type: 'post',
@@ -131,7 +129,6 @@
 					$("#fill_path_edit").html(respond);
 				}
 			});
-
 			$.ajax({
 				url: "<?= base_url('program/checkeditprogrambenefit') ?>",
 				type: 'post',
@@ -143,8 +140,9 @@
 					$("#fill_benefit_edit").html(respond);
 				}
 			});
-
 		});
+
+
 
 	});
 </script>

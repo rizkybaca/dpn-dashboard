@@ -9,6 +9,17 @@ class Program_model extends CI_Model
 	{
 		return $this->db->get('programs')->result_array();
 	}
+	public function getProgramWithJoin()
+	{
+		$q = "SELECT * FROM `programs` 
+		JOIN `program_types` ON `programs`.`program_type_id`=`program_types`.`id_program_type`
+		JOIN `program_paths` ON `programs`.`id_program`=`program_paths`.`program_id`
+		JOIN `paths` ON `program_paths`.`path_id`=`paths`.`id_path`
+		";
+		return $this->db->query($q)->result_array();
+
+		// return $this->db->get('programs')->result_array();
+	}
 	public function getProgramById($id_program)
 	{
 		return $this->db->get_where('programs', ['id_program' => $id_program])->row_array();
@@ -23,12 +34,31 @@ class Program_model extends CI_Model
 	{
 		return $this->db->get('programs')->num_rows();
 	}
+	public function countProgramPengabdianForHome()
+	{
+		$q = "SELECT * FROM `programs` JOIN `program_types` ON `programs`.`program_type_id`=`program_types`.`id_program_type` WHERE `program_types`.`program_type_name`='Pengabdian' ";
+		return $this->db->query($q)->num_rows();
+	}
+	public function countProgramCSRForHome()
+	{
+		$q = "SELECT * FROM `programs` JOIN `program_types` ON `programs`.`program_type_id`=`program_types`.`id_program_type` WHERE `program_types`.`program_type_name`='CSR' ";
+		return $this->db->query($q)->num_rows();
+	}
 	public function storeProgram()
 	{
+		$start = $this->input->post('start', true) . ' ';
+		$start .= $this->input->post('start_time', true) . ':00';
+
+		$end = $this->input->post('end', true) . ' ';
+		$end .= $this->input->post('end_time', true) . ':00';
+		// echo var_dump($start, $end);
+		// die();
 
 		$data = [
 			"title" => $this->input->post('title', true),
 			"location" => $this->input->post('location', true),
+			"start" => $start,
+			"end" => $end,
 			"work_method" => $this->input->post('work_method', true),
 			"program_description" => $this->input->post('program_description', true),
 			"delegation_requirement" => $this->input->post('delegation_requirement', true),
@@ -110,16 +140,26 @@ class Program_model extends CI_Model
 	public function updateProgram()
 	{
 
+		$start = $this->input->post('start', true) . ' ';
+		$start .= $this->input->post('start_time', true) . ':00';
+
+		$end = $this->input->post('end', true) . ' ';
+		$end .= $this->input->post('end_time', true) . ':00';
+
+		// echo var_dump($start, $end);
+		// die();
+
 		$data = [
 			"title" => $this->input->post('title', true),
 			"location" => $this->input->post('location', true),
+			"start" => $start,
+			"end" => $end,
 			"work_method" => $this->input->post('work_method', true),
 			"program_description" => $this->input->post('program_description', true),
 			"delegation_requirement" => $this->input->post('delegation_requirement', true),
 			"program_type_id" => $this->input->post('program_type_id', true),
 			"program_activity" => $this->input->post('program_activity', true)
 		];
-
 
 		$data += [
 			"slug" => url_title($data['title'], 'dash', true),

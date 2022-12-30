@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap");
+* {
+	font-family: "Lato", sans-serif;
+}
+body,
+html {
+	height: 100%;
+}
+
+section {
+	height: 100vh;
+	width: 100%;
+}
+
+/* home page */
+.hero {
+	background-image: linear-gradient(rgba(0, 0, 0, 0.288), rgba(0, 0, 0, 0.295)),
+		url("../img/bg1.png");
+	height: 100vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: relative;
+}
+
+/* About Page */
+.about-title {
+	margin-top: 40px;
+	font-size: 36px;
+	font-style: bold;
+	color: #012970;
+}
+.about-text {
+	margin-left: 112px;
+	margin-right: 112px;
+	font-size: 18px;
+	color: #777c83;
+	text-align: justify;
+}
+.about-vm {
+	background-color: #f8e2fd;
+	width: 100%;
+	height: auto;
+}
+.about-cs {
+	width: 100%;
+	height: auto;
+}
+
+.vm-text {
+	margin-left: 2px;
+	margin-right: 40px;
+	margin-bottom: 73px;
+	text-align: justify;
+}
+.vm-judul {
+	font-size: 40px;
+	font-style: bold;
+	color: #012970;
+	margin-top: 64px;
+}
+
+.verikal_center {
+	border: 2px solid #ffcd08;
+	height: 2px;
+	width: 60px;
+}
+.verikal_center1 {
+	border: 2px solid white;
+	height: 2px;
+	width: 60px;
+}
+/* Bordered Tabs */
+.nav-tabs-bordered {
+	border-bottom: 2px solid transparent;
+}
+.nav-tabs-bordered .nav-link {
+	margin-bottom: -2px;
+	border: none;
+	color: #2c384e;
+}
+.nav-tabs-bordered .nav-link:hover,
+.nav-tabs-bordered .nav-link:focus {
+	color: #012970;
+}
+.nav-tabs-bordered .nav-link.active {
+	background-color: transparent;
+	color: #012970;
+	border-bottom: 3px solid#012970;
+}
+
+.manfaat-teks {
+	font-size: 14px;
+}
+
+/* program */
+.card-program {
+	/* margin-top: 132px; */
+	margin-left: -120px;
+	width: 752px;
+	height: 500px;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+.program-title {
+	font-size: 28px;
+	color: white;
+	margin-left: 100px;
+}
+.program {
+	text-align: start;
+	margin-top: 30px;
+	margin-left: 100px;
+	color: white;
+}
+
+/* budaya organisasi */
+.asas-title {
+	/* margin-top: -410px;  */
+	text-align: center;
+	font-size: 36px;
+	font-style: bold;
+	color: #2c2d8e;
+}
+
+/* count down */

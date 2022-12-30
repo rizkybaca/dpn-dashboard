@@ -10,6 +10,12 @@ class Article_model extends CI_Model
 		return $this->db->query($q)->result_array();
 	}
 
+	public function getArticleForHome()
+	{
+		$q = "SELECT * FROM `articles` ORDER BY `post_date` DESC LIMIT 3";
+		return $this->db->query($q)->result_array();
+	}
+
 
 	public function getArticleById($article_id)
 	{
@@ -20,7 +26,7 @@ class Article_model extends CI_Model
 	{
 		return $this->db->get_where('articles', ['slug' => $slug])->row_array();
 	}
-	
+
 	public function countArticle()
 	{
 		return $this->db->get('articles')->num_rows();

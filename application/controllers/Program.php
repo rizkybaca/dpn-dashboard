@@ -53,6 +53,7 @@ class Program extends CI_Controller
 			$this->load->view('program/create', $data);
 			$this->load->view('templates/footer');
 		} else {
+
 			if ($this->program->storeProgram()) {
 
 				$slug = url_title($this->input->post('title', true), 'dash', true);
@@ -121,6 +122,9 @@ class Program extends CI_Controller
 			$this->load->view('program/edit', $data);
 			$this->load->view('templates/footer');
 		} else {
+			echo var_dump($_POST['check'], $_POST['text']);
+			die();
+
 			if ($this->program->updateProgram()) {
 
 				$slug = url_title($this->input->post('title', true), 'dash', true);
