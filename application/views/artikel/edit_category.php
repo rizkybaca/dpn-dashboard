@@ -10,8 +10,8 @@
 				<div class="card-body">
 					<?= $this->session->flashdata('message'); ?>
 
-					<form action="<?= base_url('artikel/edit_category') ?>" method="POST" enctype="multipart/form-data">
-					
+					<form action="" method="POST" enctype="multipart/form-data">
+
 						<input type="hidden" name="id_category" value="<?= $kategori['id_category']; ?>">
 						<div class="form-group">
 							<label for="category_name" class="mb-3 mt-3">Nama Kategori</label>
@@ -21,7 +21,7 @@
 						</div>
 						<div class="form-group">
 							<label for="category_icon" class="mb-3 mt-3">Icon Kategori</label>
-							<input type="text" id="category_icon" name="category_icon" class="form-control" value="<?= $kategori['category_icon']; ?>" required>
+							<input type="text" id="category_icon" name="category_icon" class="form-control" value="<?= htmlspecialchars($kategori['category_icon']); ?>" required>
 							<?= form_error('category_icon', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 

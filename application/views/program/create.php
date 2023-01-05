@@ -31,8 +31,6 @@
 						</div>
 						<!-- end choose program type -->
 
-						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
-
 						<!-- start choose path -->
 						<div class="form-group">
 							<label class="mb-1 mt-3">Pilih jalur untuk program ini</label><br>
@@ -51,14 +49,24 @@
 							<input type="file" id="banner" name="banner" class="form-control" />
 						</div>
 						<div class="form-group">
-							<label for="video" class="mb-3 mt-3">Video Preview Program</label>
-							<input type="file" id="video" name="video" class="form-control" />
+							<label for="logo" class="mb-3 mt-3">Logo Program</label>
+							<input type="file" id="logo" name="logo" class="form-control" />
 						</div>
 
 						<div class="form-group">
 							<label for="title" class="mb-3 mt-3">Judul Program</label>
 							<input type="text" id="title" name="title" class="form-control" required>
 							<?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="guide_book_link" class="mb-3 mt-3">Link Buku Panduan</label>
+							<input type="url" id="guide_book_link" name="guide_book_link" class="form-control" >
+							<?= form_error('guide_book_link', '<small class="text-danger pl-3">', '</small>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="video" class="mb-3 mt-3">Link Video Preview</label>
+							<input type="url" id="video" name="video" class="form-control" >
+							<?= form_error('video', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label for="location" class="mb-3 mt-3">Lokasi Kegiatan</label>
@@ -77,6 +85,16 @@
 								<div class="col-sm-3">
 									<input type="date" name="end" id="end" class="form-control mb-1" required>
 									<input type="time" name="end_time" id="end" class="form-control" required>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="" class="mb-3 mt-3">Batas Waktu Pendaftaran</label>
+							<div class="row gx-3 gy-2 align-items-center">
+								<div class="col-sm-3">
+									<input type="date" name="deadline" id="deadline" class="form-control mb-1" required>
+									<input type="time" name="deadline_time" id="deadline" class="form-control" required>
 								</div>
 							</div>
 						</div>

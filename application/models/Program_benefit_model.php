@@ -9,6 +9,12 @@ class Program_benefit_model extends CI_Model
 		return $this->db->get('program_benefits')->result_array();
 	}
 
+	public function getProgramBenefitByProgramId($program_id)
+	{
+		$this->db->join('benefits', 'benefits.id_benefit = program_benefits.benefit_id');
+		return $this->db->get_where('program_benefits', ['program_id' => $program_id])->result_array();
+	}
+
 	public function store($new_program, $benefit_id)
 	{
 		$data = [

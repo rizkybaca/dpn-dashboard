@@ -47,8 +47,8 @@
 							<?= form_error('created_by', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
-							<label for="ckedtor" class="mb-3 mt-3">Isi Artikel</label>
-							<textarea required class="ckeditor" name="article_content" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"><?= $artikel['article_content'] ?></textarea>
+							<label for="content" class="mb-3 mt-3">Isi Artikel</label>
+							<textarea required class="form-control" name="article_content" id="content" rows="20" placeholder="tuliskan sesuatu disini"><?= $artikel['article_content'] ?></textarea>
 							<?= form_error('article_content', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 

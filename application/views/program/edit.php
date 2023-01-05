@@ -15,6 +15,7 @@
 						<input type="hidden" name="id_program" value="<?= $program['id_program']; ?>">
 						<input type="hidden" name="old_image" value="<?= $program['image']; ?>">
 						<input type="hidden" name="old_banner" value="<?= $program['banner']; ?>">
+						<input type="hidden" name="old_logo" value="<?= $program['logo']; ?>">
 						<input type="hidden" name="old_video" value="<?= $program['video']; ?>">
 
 						<!-- start choose program type -->
@@ -36,22 +37,6 @@
 						</div>
 						<!-- end choose program type -->
 
-						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
-						<?php
-						foreach ($jalur as $j) {
-						?>
-							<div class="form-group">
-								<div class="input-group mb-3">
-									<div class="input-group-text">
-										<input class="form-check-input mt-0" <?= check_path($program['id_program'], $j['id_path']); ?> name="check[]" value="<?= $j['id_path'] ?>" type="checkbox" aria-label="Checkbox for following text input">
-									</div>
-									<input type="text" <?= check_cta_link_path($program['id_program'], $j['id_path']); ?> name="text[]" class="form-control" aria-label="Text input with checkbox">
-								</div>
-							</div>
-						<?php
-						}
-						?>
-
 						<!-- start choose path -->
 						<div class="form-group">
 							<label class="mb-1 mt-3">Pilih jalur untuk program ini</label><br>
@@ -64,10 +49,10 @@
 								?>
 									<?php
 									foreach ($jalur as $j) { ?>
-										<div class="row align-items-center mb-2 text-dark fst-normal">
+										<div class="row align-items-center mb-3 text-dark fst-normal">
 											<div class="col col-sm-12 col-lg-6 col-md-12 ">
 												<input <?= check_cta_link_path($program['id_program'], $j['id_path']); ?> type="text" id="cta_link<?= $j['id_path'] ?>" name="cta_link[]" class="form-control" placeholder="link daftar jalur">
-												<div id="cta_link<?= $j['id_path'] ?>" class="form-text">We'll never share your email with anyone else.</div>
+												<div id="cta_link<?= $j['id_path'] ?>" class="form-text text-danger">Wajib dikosongkan jika tidak dipilih!</div>
 											</div>
 											<div class="col">
 												<div class="form-check form-check-inline">
@@ -92,8 +77,8 @@
 							<input type="file" id="banner" name="banner" class="form-control" />
 						</div>
 						<div class="form-group">
-							<label for="video" class="mb-3 mt-3">Video Preview Program</label>
-							<input type="file" id="video" name="video" class="form-control" />
+							<label for="logo" class="mb-3 mt-3">Logo Program</label>
+							<input type="file" id="logo" name="logo" class="form-control" />
 						</div>
 
 						<div class="form-group">
@@ -101,6 +86,17 @@
 							<input type="text" id="title" name="title" class="form-control" value="<?= $program['title'] ?>" required>
 							<?= form_error('title', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
+						<div class="form-group">
+							<label for="guide_book_link" class="mb-3 mt-3">Link Buku Panduan</label>
+							<input type="url" id="guide_book_link" name="guide_book_link" class="form-control" value="<?= $program['guide_book_link'] ?>">
+							<?= form_error('guide_book_link', '<small class="text-danger pl-3">', '</small>'); ?>
+						</div>
+						<div class="form-group">
+							<label for="video" class="mb-3 mt-3">Link Video Preview</label>
+							<input type="url" id="video" name="video" class="form-control" value="<?= $program['video'] ?>">
+							<?= form_error('video', '<small class="text-danger pl-3">', '</small>'); ?>
+						</div>
+
 						<div class="form-group">
 							<label for="location" class="mb-3 mt-3">Lokasi Kegiatan</label>
 							<input type="text" id="location" name="location" class="form-control" value="<?= $program['location'] ?>" required>
@@ -123,6 +119,18 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label for="" class="mb-3 mt-3">Batas Waktu Pendaftaran</label>
+							<div class="row gx-3 gy-2 align-items-center">
+								<div class="col-sm-3">
+									<input type="date" name="deadline" id="deadline" class="form-control" value="<?= date('Y-m-d', strtotime($program['deadline'])) ?>" required>
+									<input type="time" name="deadline_time" id="deadline" class="form-control" value="<?= date('H:i', strtotime($program['deadline'])) ?>" required>
+
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="mb-3 mt-3" for="">
 								Pilih Metode Pelaksanaan
@@ -152,43 +160,10 @@
 							</div>
 						</div>
 
-						<!-- program type -->
-						<!-- <div class="form-group">
-						<label class="mb-3 mt-3">Jenis Program</label>
-						<br />
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-							<label class="form-check-label" for="inlineCheckbox1">Fully Funded</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">Partially Funded</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">Self Funded</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">WFO</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">WFH</label>
-						</div>
-					</div> -->
-
 						<div class="form-group">
-							<label for="ckedtor" class="mb-3 mt-3">Detail Kegiatan</label>
-							<textarea class="ckeditor" name="program_description" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"><?= $program['program_description'] ?></textarea>
+							<label for="description" class="mb-3 mt-3">Detail Kegiatan</label>
+							<textarea class="form-control" name="program_description" id="description" rows="8" placeholder="tuliskan sesuatu disini"><?= $program['program_description'] ?></textarea>
 						</div>
-
-						<!-- start choose benefit -->
-						<!-- <div class="form-group">
-							<label class="mb-1 mt-3">Pilih manfaat untuk program ini</label><br>
-							<label class="fst-italic text-danger" id="fill_benefit">pilih tipe program dahulu!</label><br>
-						</div> -->
-						<!-- end choose benefit -->
 
 						<!-- start choose path -->
 						<div class="form-group">
@@ -214,36 +189,14 @@
 						</div>
 						<!-- end choose path -->
 
-						<!-- program benefit -->
-						<!-- <div class="form-group">
-						<label class="mb-3 mt-3">Manfaat Program</label>
-						<br />
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-							<label class="form-check-label" for="inlineCheckbox1">Upgrade Skill</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">Kesempatan Tim internal</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">Relasi</label>
-						</div>
-						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-							<label class="form-check-label" for="inlineCheckbox2">Give Away</label>
-						</div>
-					</div> -->
-
 						<div class="form-group">
-							<label for="ckedtor" class="mb-3 mt-3">Persyaratan Delegasi</label>
-							<textarea class="ckeditor" name="delegation_requirement" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"><?= $program['delegation_requirement'] ?></textarea>
+							<label for="delegate" class="mb-3 mt-3">Persyaratan Delegasi</label>
+							<textarea class="form-control" id="delegate" name="delegation_requirement" rows="5" placeholder="tuliskan sesuatu disini"><?= $program['delegation_requirement'] ?></textarea>
 						</div>
 
 						<div class="form-group">
-							<label for="ckedtor" class="mb-3 mt-3">Program Pengabdian</label>
-							<textarea class="ckeditor" name="program_activity" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"><?= $program['program_activity'] ?></textarea>
+							<label for="activity" class="mb-3 mt-3">Program Pengabdian</label>
+							<textarea class="form-control" name="program_activity" id="activity" rows="5" placeholder="tuliskan sesuatu disini"><?= $program['program_activity'] ?></textarea>
 						</div>
 						<button type="submit" value="upload" class="btn mt-5" style="background-color: #242790; color: white">Post Program</button>
 						<a href="<?= base_url('program') ?>" class="btn btn-danger mt-5">Batal</a>

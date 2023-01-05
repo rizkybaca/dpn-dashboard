@@ -9,6 +9,12 @@ class Article_category_model extends CI_Model
 		return $this->db->get('article_categories')->result_array();
 	}
 
+	public function getArticleCategoryByArticleId($article_id)
+	{
+		$this->db->join('categories', 'categories.id_category = article_categories.category_id');
+		return $this->db->get_where('article_categories', ['article_id' => $article_id])->result_array();
+	}
+
 	public function store($new_artikel, $category_id)
 	{
 		$data = [

@@ -39,6 +39,31 @@
 				</li>
 			</ul>
 		</li>
+		<li class="nav-heading mt-3">Setting</li>
+		<!-- setting -->
+
+		<!-- Setting -->
+		<li class="nav-item">
+			<a class="nav-link collapsed" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+				<i class="fa-solid fa-square-poll-horizontal"></i><span>Setting</span><i class="bi bi-chevron-right ms-auto"></i>
+			</a>
+			<ul id="settings-nav" class="nav-setting collapse" data-bs-parent="#sidebar-nav">
+				<p class="nav-heading mt-2">Menu</p>
+				<li>
+					<a href="<?= base_url('artikel/category') ?>"> <span>Kelola Kategori Artikel</span> </a>
+				</li>
+				<li>
+					<a href="<?= base_url('program/program_type') ?>"> <span>Kelola Tipe Program</span> </a>
+				</li>
+				<li>
+					<a href="<?= base_url('program/path') ?>"> <span>Kelola Jalur Program</span> </a>
+				</li>
+				<li>
+					<a href="<?= base_url('program/benefit') ?>"> <span>Kelola Manfaat Program</span> </a>
+				</li>
+			</ul>
+		</li>
+
 		<!-- logout -->
 		<li class="nav-heading mt-3">Akun</li>
 		<!-- home -->

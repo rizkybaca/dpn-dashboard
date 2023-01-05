@@ -145,7 +145,7 @@ class Artikel extends CI_Controller
 				if ($first_check == true) {
 					$pop_category = $this->input->post('category_id');
 					$count_category = count($pop_category);
-					
+
 					for ($i = 0; $i < $count_category; $i++) {
 						$category_id = $pop_category[$i];
 						$this->kategori_artikel->store($new_artikel, $category_id);
@@ -222,12 +222,13 @@ class Artikel extends CI_Controller
 		}
 	}
 
-	public function edit_category()
+	public function edit_category($id_category)
 	{
 		$data['title'] = 'Edit Kategori';
-		$data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
 
-		$id_category = $this->input->post('id_category');
+		$data['user'] = $this->user->getUserLogin();
+
+		// $id_category = $this->input->post('id_category');
 
 		$data['kategori'] = $this->kategori->getCategoryById($id_category);
 
@@ -241,15 +242,13 @@ class Artikel extends CI_Controller
 			$this->load->view('artikel/edit_category', $data);
 			$this->load->view('templates/footer');
 		} else {
-			$category_name = $this->input->post('category_name');
-			$category_icon = $this->input->post('category_icon');
 
-			$this->db->set('category_name', $category_name);
-			$this->db->set('category_icon', $category_icon);
-			$this->db->where('id_category', $id_category);
-			$this->db->update('categories');
+			if ($this->kategori->updateCategory()) {
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil mengubah kategori!</div>');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kategori Gagal Diubah!</div>');
+			}
 
-			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil mengubah kategori!</div>');
 			redirect('artikel/category');
 		}
 	}

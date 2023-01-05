@@ -41,6 +41,8 @@ class Program extends CI_Controller
 		$data['jalur'] = $this->path->getPath();
 
 		$this->form_validation->set_rules('title', 'Judul', 'required|trim');
+		$this->form_validation->set_rules('guide_book_link', 'Link Buku Panduan', 'trim');
+		$this->form_validation->set_rules('video', 'Link Video', 'trim');
 		$this->form_validation->set_rules('location', 'Lokasi', 'required|trim');
 		$this->form_validation->set_rules('work_method', 'Metode Pelaksanaan', 'required|trim');
 		$this->form_validation->set_rules('program_description', 'Detail Kegiatan', 'required|trim');
@@ -69,7 +71,17 @@ class Program extends CI_Controller
 
 					for ($i = 0; $i < $count_path; $i++) {
 						$path_id = $pop_path[$i];
-						$cta_link = $pop_cta_link[$i];
+
+						$a = $this->input->post('cta_link', true);
+						$ca = count($a);
+
+						for ($b = 0; $b < $ca; $b++) {
+							if ($a[$b] !== '') {
+								$d[] = $a[$b];
+							}
+						}
+
+						$cta_link = $d[$i];
 						$this->programpath->store($new_program, $path_id, $cta_link);
 					}
 				}
@@ -105,11 +117,9 @@ class Program extends CI_Controller
 		$data['jalur'] = $this->path->getPathByProgramTypeId($data['program']['program_type_id']);
 		$data['manfaat'] = $this->benefit->getBenefitByProgramTypeId($data['program']['program_type_id']);
 
-		// $data['jalur_program'] = $this->programpath->getProgramPathsByProgramIdAndPathId($data['program']['id_program'], $data['']);
-		// echo var_dump($data['jalur']);
-		// die();
-
 		$this->form_validation->set_rules('title', 'Judul', 'required|trim');
+		$this->form_validation->set_rules('guide_book_link', 'Link Buku Panduan', 'trim');
+		$this->form_validation->set_rules('video', 'Link Video', 'trim');
 		$this->form_validation->set_rules('location', 'Lokasi', 'required|trim');
 		$this->form_validation->set_rules('work_method', 'Metode Pelaksanaan', 'required|trim');
 		$this->form_validation->set_rules('program_description', 'Detail Kegiatan', 'required|trim');
@@ -122,8 +132,6 @@ class Program extends CI_Controller
 			$this->load->view('program/edit', $data);
 			$this->load->view('templates/footer');
 		} else {
-			echo var_dump($_POST['check'], $_POST['text']);
-			die();
 
 			if ($this->program->updateProgram()) {
 
@@ -143,7 +151,19 @@ class Program extends CI_Controller
 
 					for ($i = 0; $i < $count_path; $i++) {
 						$path_id = $pop_path[$i];
-						$cta_link = $pop_cta_link[$i];
+
+						$a = $this->input->post('cta_link', true);
+
+						$ca = count($a);
+
+						for ($b = 0; $b < $ca; $b++) {
+							if ($a[$b] !== '') {
+								$d[] = $a[$b];
+							}
+						}
+
+						$cta_link = $d[$i];
+
 						$this->programpath->store($new_program, $path_id, $cta_link);
 					}
 				}
@@ -296,7 +316,7 @@ class Program extends CI_Controller
 
 		$this->form_validation->set_rules('path_name', 'nama Jalur', 'required|trim');
 		$this->form_validation->set_rules('path_description', 'Deskripsi Jalur', 'required|trim');
-		$this->form_validation->set_rules('path_icon', 'Icon Jalur', 'required|trim');
+		// $this->form_validation->set_rules('path_icon', 'Icon Jalur', 'required|trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header', $data);
@@ -318,13 +338,13 @@ class Program extends CI_Controller
 	public function edit_path($id_path)
 	{
 		$data['user'] = $this->user->getUserLogin();
-		$data['title'] = 'Tambah Jalur';
+		$data['title'] = 'Edit Jalur';
 		$data['jalur'] = $this->path->getPathById($id_path);
 		$data['tipe_program'] = $this->program_type->getProgramType();
 
 		$this->form_validation->set_rules('path_name', 'nama Jalur', 'required|trim');
 		$this->form_validation->set_rules('path_description', 'Deskripsi Jalur', 'required|trim');
-		$this->form_validation->set_rules('path_icon', 'Icon Jalur', 'required|trim');
+		// $this->form_validation->set_rules('path_icon', 'Icon Jalur', 'required|trim');
 
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->view('templates/header', $data);
@@ -345,7 +365,14 @@ class Program extends CI_Controller
 
 	public function delete_path($id_path)
 	{
+
+
 		if ($this->path->deletePath($id_path)) {
+
+			$old_path_icon = $this->input->post('old_path_icon', true);
+			if ($old_path_icon != 'default.jpg') {
+				unlink(FCPATH . './assets/img/program/path_icon/' . $old_path_icon);
+			}
 			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jalur berhasil dihapus!</div>');
 		} else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Jalur gagal dihapus!</div>');
@@ -398,7 +425,7 @@ class Program extends CI_Controller
 	public function edit_benefit($id_benefit)
 	{
 		$data['user'] = $this->user->getUserLogin();
-		$data['title'] = 'Tambah Manfaat';
+		$data['title'] = 'Edit Manfaat';
 		$data['manfaat'] = $this->benefit->getBenefitById($id_benefit);
 		$data['tipe_program'] = $this->program_type->getProgramType();
 

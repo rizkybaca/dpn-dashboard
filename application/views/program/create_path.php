@@ -18,17 +18,18 @@
 							<?php
 							foreach ($tipe_program as $tp) {
 							?>
-								<div class="form-check form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="program_type_id" id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>" required>
-									<label class="form-check-label" for="<?= $tp['id_program_type'] ?>">
-										<?= $tp['program_type_name'] ?>
-									</label>
-								</div>
+							<div class="form-check form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="program_type_id"
+									id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>" required>
+								<label class="form-check-label" for="<?= $tp['id_program_type'] ?>">
+									<?= $tp['program_type_name'] ?>
+								</label>
+							</div>
 							<?php
 							}
 							?>
 						</div>
-						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
+						<!-- <a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a> -->
 
 						<div class="form-group">
 							<label for="path_name" class="mb-3 mt-3">Nama Jalur</label>
@@ -36,10 +37,14 @@
 							<?= form_error('path_name', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
+							<label for="path_icon" class="mb-3 mt-3">Gambar Program</label>
+							<input type="file" id="path_icon" name="path_icon" class="form-control" />
+						</div>
+						<!-- <div class="form-group">
 							<label for="path_icon" class="mb-3 mt-3">Icon Jalur</label>
 							<input type="text" id="path_icon" name="path_icon" class="form-control" required>
 							<?= form_error('path_icon', '<small class="text-danger pl-3">', '</small>'); ?>
-						</div>
+						</div> -->
 
 
 
@@ -71,7 +76,8 @@
 
 						<div class="form-group">
 							<label for="ckedtor" class="mb-3 mt-3">Detail Jalur</label>
-							<textarea class="ckeditor" name="path_description" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"></textarea>
+							<textarea class="ckeditor" name="path_description" id="ckedtor" rows="3"
+								placeholder="tuliskan sesuatu disini"></textarea>
 						</div>
 
 						<!-- program benefit -->
@@ -96,7 +102,8 @@
 						</div>
 					</div> -->
 
-						<button type="submit" value="upload" class="btn mt-5" style="background-color: #242790; color: white">Post Path</button>
+						<button type="submit" value="upload" class="btn mt-5"
+							style="background-color: #242790; color: white">Post Path</button>
 						<a href="<?= base_url('program/path') ?>" class="btn btn-danger mt-5">Batal</a>
 
 					</form>

@@ -15,11 +15,12 @@ class User_Program extends CI_Controller
 
 		$data['title'] = "Program Page";
 
-		$data['program'] = $this->program->getProgramWithJoin();
+		// $data['program'] = $this->program->getProgramWithJoin();
 		$data['tipe_program'] = $this->program_type->getProgramType();
 
 		$this->load->view('template_user/header1', $data);
 		$this->load->view('user_home/program', $data);
 		$this->load->view('template_user/footer');
 	}
+	
 }

@@ -24,6 +24,12 @@ class Program_model extends CI_Model
 	{
 		return $this->db->get_where('programs', ['id_program' => $id_program])->row_array();
 	}
+	public function getProgramByProgramTypeId($program_type_id)
+	{
+
+		$this->db->join('program_types', 'programs.program_type_id = program_types.id_program_type');
+		return $this->db->get_where('programs', ['program_type_id' => $program_type_id])->result_array();
+	}
 
 	public function getProgramBySlug($slug)
 	{
@@ -51,14 +57,18 @@ class Program_model extends CI_Model
 
 		$end = $this->input->post('end', true) . ' ';
 		$end .= $this->input->post('end_time', true) . ':00';
-		// echo var_dump($start, $end);
-		// die();
+
+		$deadline = $this->input->post('deadline', true) . ' ';
+		$deadline .= $this->input->post('deadline_time', true) . ':00';
 
 		$data = [
 			"title" => $this->input->post('title', true),
+			"guide_book_link" => $this->input->post('guide_book_link', true),
+			"video" => $this->input->post('video', true),
 			"location" => $this->input->post('location', true),
 			"start" => $start,
 			"end" => $end,
+			"deadline" => $deadline,
 			"work_method" => $this->input->post('work_method', true),
 			"program_description" => $this->input->post('program_description', true),
 			"delegation_requirement" => $this->input->post('delegation_requirement', true),
@@ -114,25 +124,45 @@ class Program_model extends CI_Model
 			}
 		}
 
-		$upload_video = (@$_FILES['video']['name']) ? true : false;
+		$upload_logo = (@$_FILES['logo']['name']) ? true : false;
 
-		if ($upload_video == true) {
-			$config['allowed_types'] = 'webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|WEBM|MPG|MP2|MPEG|MPE|MPV|OGG|MP4|M4P|M4V|AVI|WMV|MOV|QT|FLV|SWF';
-			$config['max_size']     = '51200'; //50MB
-			$config['upload_path'] = './assets/video/program/video_preview/';
+		if ($upload_logo == true) {
+			$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+			$config['max_size']     = '2048';
+			$config['upload_path'] = './assets/img/program/logo/';
 			$config['encrypt_name'] = TRUE;
 			$this->load->library('upload', $config);
 
-			if ($this->upload->do_upload('video')) {
-				$new_video = $this->upload->data('file_name');
-				// $this->db->set('video', $new_video);
+			if ($this->upload->do_upload('logo')) {
+				$new_logo = $this->upload->data('file_name');
+				// $this->db->set('logo', $new_logo);
 				$data += [
-					"video" => $new_video
+					"logo" => $new_logo
 				];
 			} else {
 				echo $this->upload->display_errors();
 			}
 		}
+
+		// $upload_video = (@$_FILES['video']['name']) ? true : false;
+
+		// if ($upload_video == true) {
+		// 	$config['allowed_types'] = 'webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|WEBM|MPG|MP2|MPEG|MPE|MPV|OGG|MP4|M4P|M4V|AVI|WMV|MOV|QT|FLV|SWF';
+		// 	$config['max_size']     = '51200'; //50MB
+		// 	$config['upload_path'] = './assets/video/program/video_preview/';
+		// 	$config['encrypt_name'] = TRUE;
+		// 	$this->load->library('upload', $config);
+
+		// 	if ($this->upload->do_upload('video')) {
+		// 		$new_video = $this->upload->data('file_name');
+		// 		// $this->db->set('video', $new_video);
+		// 		$data += [
+		// 			"video" => $new_video
+		// 		];
+		// 	} else {
+		// 		echo $this->upload->display_errors();
+		// 	}
+		// }
 
 		return $this->db->insert('programs', $data);
 	}
@@ -146,14 +176,17 @@ class Program_model extends CI_Model
 		$end = $this->input->post('end', true) . ' ';
 		$end .= $this->input->post('end_time', true) . ':00';
 
-		// echo var_dump($start, $end);
-		// die();
+		$deadline = $this->input->post('deadline', true) . ' ';
+		$deadline .= $this->input->post('deadline_time', true) . ':00';
 
 		$data = [
 			"title" => $this->input->post('title', true),
+			"guide_book_link" => $this->input->post('guide_book_link', true),
+			"video" => $this->input->post('video', true),
 			"location" => $this->input->post('location', true),
 			"start" => $start,
 			"end" => $end,
+			"deadline" => $deadline,
 			"work_method" => $this->input->post('work_method', true),
 			"program_description" => $this->input->post('program_description', true),
 			"delegation_requirement" => $this->input->post('delegation_requirement', true),
@@ -207,24 +240,43 @@ class Program_model extends CI_Model
 			}
 		}
 
-		$upload_video = (@$_FILES['video']['name']) ? true : false;
+		$upload_logo = (@$_FILES['logo']['name']) ? true : false;
 
-		if ($upload_video == true) {
-			$config['allowed_types'] = 'webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|WEBM|MPG|MP2|MPEG|MPE|MPV|OGG|MP4|M4P|M4V|AVI|WMV|MOV|QT|FLV|SWF';
-			$config['max_size']     = '51200'; //50MB
-			$config['upload_path'] = './assets/video/program/video_preview/';
+		if ($upload_logo == true) {
+			$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+			$config['max_size']     = '2048';
+			$config['upload_path'] = './assets/img/program/logo/';
 			$config['encrypt_name'] = TRUE;
 			$this->load->library('upload', $config);
 
-			if ($this->upload->do_upload('video')) {
-				$new_video = $this->upload->data('file_name');
+			if ($this->upload->do_upload('logo')) {
+				$new_logo = $this->upload->data('file_name');
 				$data += [
-					"video" => $new_video
+					"logo" => $new_logo
 				];
 			} else {
 				echo $this->upload->display_errors();
 			}
 		}
+
+		// $upload_video = (@$_FILES['video']['name']) ? true : false;
+
+		// if ($upload_video == true) {
+		// 	$config['allowed_types'] = 'webm|mpg|mp2|mpeg|mpe|mpv|ogg|mp4|m4p|m4v|avi|wmv|mov|qt|flv|swf|WEBM|MPG|MP2|MPEG|MPE|MPV|OGG|MP4|M4P|M4V|AVI|WMV|MOV|QT|FLV|SWF';
+		// 	$config['max_size']     = '51200'; //50MB
+		// 	$config['upload_path'] = './assets/video/program/video_preview/';
+		// 	$config['encrypt_name'] = TRUE;
+		// 	$this->load->library('upload', $config);
+
+		// 	if ($this->upload->do_upload('video')) {
+		// 		$new_video = $this->upload->data('file_name');
+		// 		$data += [
+		// 			"video" => $new_video
+		// 		];
+		// 	} else {
+		// 		echo $this->upload->display_errors();
+		// 	}
+		// }
 
 		$this->db->where('id_program', $this->input->post('id_program'));
 
@@ -233,7 +285,7 @@ class Program_model extends CI_Model
 		if ($result == true) {
 			$exImage = (@$data['image']) ? true : false;
 			$exBanner = (@$data['banner']) ? true : false;
-			$exVideo = (@$data['video']) ? true : false;
+			$exLogo = (@$data['logo']) ? true : false;
 
 			if ($exImage == true) {
 				// delete old asset
@@ -248,10 +300,10 @@ class Program_model extends CI_Model
 					unlink(FCPATH . 'assets/img/program/banner/' . $old_banner);
 				}
 			}
-			if ($exVideo == true) {
-				$old_video = $this->input->post('old_video', true);
-				if ($old_video != 'default.jpg') {
-					unlink(FCPATH . 'assets/video/program/video_preview/' . $old_video);
+			if ($exLogo == true) {
+				$old_logo = $this->input->post('old_logo', true);
+				if ($old_logo != 'default.jpg') {
+					unlink(FCPATH . 'assets/img/program/logo/' . $old_logo);
 				}
 			}
 		}

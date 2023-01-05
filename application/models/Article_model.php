@@ -21,6 +21,12 @@ class Article_model extends CI_Model
 	{
 		return $this->db->get_where('articles', ['id_article' => $article_id])->row_array();
 	}
+	public function getArticleByCategoryId($category_id)
+	{
+		$this->db->join('article_categories', 'articles.id_article = article_categories.article_id');
+		$this->db->join('categories', 'categories.id_category = article_categories.category_id');
+		return $this->db->get_where('articles', ['category_id' => $category_id])->result_array();
+	}
 
 	public function getArticleBySlug($slug)
 	{

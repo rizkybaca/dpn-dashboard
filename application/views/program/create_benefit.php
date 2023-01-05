@@ -28,7 +28,7 @@
 							}
 							?>
 						</div>
-						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
+						<!-- <a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a> -->
 
 						<div class="form-group">
 							<label for="benefit_name" class="mb-3 mt-3">Nama Manfaat</label>

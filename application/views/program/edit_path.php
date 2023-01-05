@@ -14,6 +14,7 @@
 					<form method="POST" enctype="multipart/form-data">
 
 						<input type="hidden" name="id_path" value="<?= $jalur['id_path'] ?>">
+						<input type="hidden" name="old_path_icon" value="<?= $jalur['path_icon'] ?>">
 						<div class="form-group">
 							<label for="program_type_id" class="mb-3 mt-3">Pilih Tipe Program</label><br>
 							<?php
@@ -30,7 +31,7 @@
 							}
 							?>
 						</div>
-						<a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a>
+						<!-- <a href="<?= base_url('program/program_type') ?>"> <span>klik untuk kelola tipe program selengkapnya..</span> </a> -->
 
 						<div class="form-group">
 							<label for="path_name" class="mb-3 mt-3">Nama Jalur</label>
@@ -38,10 +39,14 @@
 							<?= form_error('path_name', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
+							<label for="path_icon" class="mb-3 mt-3">Gambar Program</label>
+							<input type="file" id="path_icon" name="path_icon" class="form-control" />
+						</div>
+						<!-- <div class="form-group">
 							<label for="path_icon" class="mb-3 mt-3">Icon Jalur</label>
 							<input type="text" id="path_icon" name="path_icon" class="form-control" value="<?= $jalur['path_icon'] ?>" required>
 							<?= form_error('path_icon', '<small class="text-danger pl-3">', '</small>'); ?>
-						</div>
+						</div> -->
 
 
 

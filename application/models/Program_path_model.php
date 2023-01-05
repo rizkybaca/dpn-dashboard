@@ -14,6 +14,12 @@ class Program_path_model extends CI_Model
 		return $this->db->get_where('program_paths', ['program_id' => $program_id, 'path_id' => $path_id])->result_array();
 	}
 
+	public function getProgramPathByProgramId($program_id)
+	{
+		$this->db->join('paths', 'paths.id_path = program_paths.path_id');
+		return $this->db->get_where('program_paths', ['program_id' => $program_id])->result_array();
+	}
+
 	public function store($new_program, $path_id, $cta_link)
 	{
 		$data = [
