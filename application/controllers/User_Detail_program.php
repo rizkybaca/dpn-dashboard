@@ -14,13 +14,13 @@ class User_Detail_program extends CI_Controller
 		$this->load->model('Benefit_model', 'benefit');
 		$this->load->model('Program_benefit_model', 'programbenefit');
 	}
-	public function index_lama()
-	{
-		$data['title'] = " Detail Program Page";
-		$this->load->view('template_user/header1', $data);
-		$this->load->view('user_home/detail_program_lama', $data);
-		$this->load->view('template_user/footer');
-	}
+	// public function index_lama()
+	// {
+	// 	$data['title'] = " Detail Program Page";
+	// 	$this->load->view('template_user/header1', $data);
+	// 	$this->load->view('user_home/detail_program_lama', $data);
+	// 	$this->load->view('template_user/footer');
+	// }
 	public function index($slug)
 	{
 		$data['title'] = " Detail Program Page";
@@ -28,6 +28,13 @@ class User_Detail_program extends CI_Controller
 		$data['program'] = $this->program->getProgramBySlug($slug);
 		$data['jalur'] = $this->programpath->getProgramPathByProgramId($data['program']['id_program']);
 		$data['manfaat'] = $this->programbenefit->getProgramBenefitByProgramId($data['program']['id_program']);
+
+		$data['count_jalur'] = count($data['jalur']);
+
+		$data['ff'] = '';
+		foreach ($data['jalur'] as $j) {
+			$data['ff'] .= $j['cta_link'] . ';';
+		}
 
 		$this->load->view('template_user/header1', $data);
 		$this->load->view('user_home/detail_program', $data);

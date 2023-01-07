@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?= $title ?></title>
 
-	<link rel="icon" href="<?= base_url('assets/assets_user/img/logo.png'); ?>" type="image/x-icon" />
+	<link rel="icon" href="<?= base_url('assets/assets_user/img/link_icon.png'); ?>" type="image/x-icon" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap"

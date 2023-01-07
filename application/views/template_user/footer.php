@@ -8,8 +8,7 @@
 			<div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-3">
 				<!-- Content -->
 				<h6 class="text-uppercase fw-bold mb-3">
-					<img src="<?= base_url('assets/assets_user/img/logofooter.png') ?>" class="card-img-top" alt="..."
-						style="width: 125px; height: 55px;" />
+					<img src="<?= base_url('assets/assets_user/img/logofooter.png') ?>" class="card-img-top" alt="..." style="width: 125px; height: 55px;" />
 				</h6>
 				<h5 class="text-white" style="font-size:18px; font-style:italic;">
 					“Berkelana di Negeri Khatulistiwa Bagi Sesama”
@@ -70,9 +69,7 @@
 			<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-md-0  text-white text-center mb-3">
 				<!-- Links -->
 				<h6 class="fw-bold mb-4">Kritik dan Saran</h6>
-				<a target="_blank"
-					href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=halo@dedikasipemudanegeri.or.id"
-					class="btn btn-warning text-center" style="width:131px;  border-radius: 10px;">Kirimkan</a>
+				<a target="_blank" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=halo@dedikasipemudanegeri.or.id" class="btn btn-warning text-center" style="width:131px;  border-radius: 10px;">Kirimkan</a>
 			</div>
 			<!-- Grid column -->
 		</div>
@@ -82,13 +79,11 @@
 <!-- Footer -->
 </section>
 <!-- end footer -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
-
 <script>
 	const menu = document.querySelector(".nav-tabs-bordered");
-	menu.addEventListener('click', function (e) {
+	menu.addEventListener('click', function(e) {
 		const targetMenu = e.target;
 		if (targetMenu.classList.contains('nav-link')) {
 			const menuLinkActive = document.querySelector("nav-tabs-bordered .nav-link.active");
@@ -100,10 +95,30 @@
 		}
 	});
 
-	// start countdown
-	CountDownTimer("<?= date('Y-m-d H:i:s', strtotime($program['deadline'])) ?>", 'hari', 'jam', 'menit', 'detik');
+	let jalur = '<?php echo $count_jalur ?>';
+	const bb = [];
+	const yy = [];
 
-	function CountDownTimer(dt, id1, id2, id3, id4) {
+	for (let index = 1; index <= jalur; index++) {
+
+		bb.push('noaccess3' + index);
+	}
+	let dd = '<?php echo $ff ?>';
+
+	var kk = dd.split(';');
+
+	for (let iterate = 0; iterate < jalur; iterate++) {
+		if (kk[iterate] != '') {
+			yy.push(kk[iterate]);
+		}
+
+	}
+
+
+	// start countdown
+	CountDownTimer("<?= date('Y-m-d H:i:s', strtotime($program['deadline'])) ?>", 'hari', 'jam', 'menit', 'detik', 'noaccess1', 'noaccess2', bb, yy);
+
+	function CountDownTimer(dt, id1, id2, id3, id4, id5, id6, bb, yy) {
 		var end = new Date(dt);
 
 		var _second = 1000;
@@ -120,22 +135,54 @@
 				clearInterval(timer);
 				return;
 			}
+
 			var days = Math.floor(distance / _day);
 			var hours = Math.floor((distance % _day) / _hour);
 			var minutes = Math.floor((distance % _hour) / _minute);
 			var seconds = Math.floor((distance % _minute) / _second);
+			if (seconds == 0 && minutes == 0 && hours == 0 && days == 0) {
+				document.getElementById(id5).classList.add("disabled");
+				document.getElementById(id6).classList.add("disabled");
 
+
+				// start get noaccess3's from cta link
+				let nn = 0;
+				for (let cc = 1; cc <= bb.length; cc++) {
+					document.getElementById(bb[nn]).classList.add("disabled", "pe-none");
+					var a = document.getElementById(bb[nn]);
+					a.href = "javascript:void(0)";
+					nn++;
+				}
+				// end get noaccess3's from cta link
+
+
+			} else {
+				document.getElementById(id5).classList.remove("disabled");
+				document.getElementById(id6).classList.remove("disabled");
+
+				// start get noaccess3's from cta link
+
+				let mm = 0;
+				for (let cc = 1; cc <= bb.length; cc++) {
+					document.getElementById(bb[mm]).classList.remove("disabled", "pe-none");
+					var a = document.getElementById(bb[mm]);
+					a.href = yy[mm];
+					mm++;
+				}
+				// end get noaccess3's from cta link
+
+			}
 			document.getElementById(id1).innerHTML = days + ' Hari';
 			document.getElementById(id2).innerHTML = hours + ' Jam';
 			document.getElementById(id3).innerHTML = minutes + ' Menit';
 			document.getElementById(id4).innerHTML = seconds + ' Detik';
+
 		}
 
 		timer = setInterval(showRemaining, 1000);
 
 	}
 	// end countdown
-
 </script>
 
 </body>

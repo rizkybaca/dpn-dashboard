@@ -22,5 +22,4 @@ class User_Program extends CI_Controller
 		$this->load->view('user_home/program', $data);
 		$this->load->view('template_user/footer');
 	}
-	
 }

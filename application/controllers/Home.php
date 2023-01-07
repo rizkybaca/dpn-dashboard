@@ -18,6 +18,10 @@ class Home extends CI_Controller
 		$data['count_program_pengabdian'] = $this->program->countProgramPengabdianForHome();
 		$data['count_program_csr'] = $this->program->countProgramCSRForHome();
 
+		$data['count_alumni_pengabdian'] = 8;
+		$data['count_alumni_webinar'] = 50;
+		$data['count_alumni_penerima_giveaway'] = 3;
+
 		$this->load->view('template_user/header1', $data);
 		$this->load->view('user_home/home', $data);
 		$this->load->view('template_user/footer');

@@ -15,7 +15,8 @@
 			<h1 class="card-title" style="margin-top: 20px; "><?= $program['title'] ?></h1>
 			<p>Open Recruitment Volunteer Pengabdian Masyarakat </p>
 			<p><?= $program['location'] ?></p>
-			<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="col-md-2 col-lg-2 btn btn-warning" style=" border-radius: 10px; ">Daftar Sekarang</button>
+			<button type="button" id="noaccess1" data-bs-toggle="modal" data-bs-target="#exampleModal" class="col-md-2 col-lg-2 btn btn-warning disabled" style=" border-radius: 10px; ">Daftar Sekarang</button>
+
 		</div>
 	</div>
 
@@ -26,20 +27,27 @@
 					<div class="card mb-2 ms-4">
 						<div class="card-body" style="padding: 40px; ">
 							<div class="row">
-								<p class="card-text" style="font-size:14px; color:#012970;"><b>Tanggal Pelaksanaan</b> </p>
-								<p class="card-text mt-0" style="font-size:14px;"><i class="fa-regular fa-calendar-days" style="font-size:14px; color:#012970;"></i>&nbsp;&nbsp; <?= date('d', strtotime($program['start'])) . ' - ' . date('d F Y', strtotime($program['end'])) ?></p>
+								<p class="card-text" style="font-size:14px; color:#012970;"><b>Tanggal Pelaksanaan</b>
+								</p>
+								<p class="card-text mt-0" style="font-size:14px;"><i class="fa-regular fa-calendar-days" style="font-size:14px; color:#012970;"></i>&nbsp;&nbsp;
+									<?= date('d', strtotime($program['start'])) . ' - ' . date('d F Y', strtotime($program['end'])) ?>
+								</p>
 							</div>
 							<div class="row mt-3">
 								<p class="card-text" style="font-size:14px; color:#012970;"><b>Lokasi</b> </p>
-								<p class="card-text mt-0" style="font-size:14px;"><i class="fa-solid fa-location-dot" style="font-size:14px; color:#012970;"></i>&nbsp;&nbsp; <?= $program['location'] ?></p>
+								<p class="card-text mt-0" style="font-size:14px;"><i class="fa-solid fa-location-dot" style="font-size:14px; color:#012970;"></i>&nbsp;&nbsp;
+									<?= $program['location'] ?></p>
 							</div>
 							<div class="row mt-4">
-								<p class="card-text" style="font-size:14px; color:#012970;"><b>Batas Akhir Pendaftaran</b> </p>
+								<p class="card-text" style="font-size:14px; color:#012970;"><b>Batas Akhir
+										Pendaftaran</b> </p>
 								<div class="col ">
-									<p class="card-text " style="font-size:14px;"><?= date('d F Y', strtotime($program['deadline'])) ?></p>
+									<p class="card-text " style="font-size:14px;">
+										<?= date('d F Y', strtotime($program['deadline'])) ?></p>
 								</div>
 								<div class="col">
-									<p class="card-text" style="font-size:14px;"><?= date('H.i', strtotime($program['deadline'])) ?> WIB</p>
+									<p class="card-text" style="font-size:14px;">
+										<?= date('H.i', strtotime($program['deadline'])) ?> WIB</p>
 								</div>
 							</div>
 							<div class="row mt-3 mb-3">
@@ -68,9 +76,10 @@
 
 
 								</div>
-								<button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#exampleModal" style=" border-radius: 10px; background:#012970;">
+								<button type="button" id="noaccess2" class="btn text-white disabled" data-bs-toggle="modal" data-bs-target="#exampleModal" style=" border-radius: 10px; background:#012970;">
 									Daftar Sekarang
 								</button>
+
 
 
 								<!-- Modal -->
@@ -81,15 +90,17 @@
 										<div class=" modal-content ">
 
 											<div class="modal-header border-0 justify-content-center mt-3 ">
-												<h5 class="modal-title " id="exampleModalLabel"><b>Pilih Jalur Program</b> </h5>
+												<h5 class="modal-title " id="exampleModalLabel">
+													<b>Pilih Jalur Program</b>
+												</h5>
 											</div>
 
 											<div class="modal-body ">
 												<!-- isian -->
 												<div class="container mb-5">
 													<div class="row">
-
 														<?php
+														$ii = 1;
 														foreach ($jalur as $j) { ?>
 
 															<!-- start path -->
@@ -97,17 +108,22 @@
 																<div class="card border-0" style="width: 18rem;">
 																	<div class="row mt-3 ms-3 ">
 																		<div class="col-lg-2">
-																			<div class="img" style="width:52px; height:52px;"><img src="<?= base_url('assets/img/program/path_icon/') . $j['path_icon'] ?>" class="card-img-top" alt="logo jalur" /></div>
+																			<div class="img" style="width:52px; height:52px;"><img src="<?= base_url('assets/img/program/path_icon/') . $j['path_icon'] ?>" class="card-img-top" alt="logo jalur" />
+																			</div>
 																		</div>
 																		<div class="col-lg-10">
-																			<div class="ms-3 mt-3"><b><?= $j['path_name'] ?></b></div>
+																			<div class="ms-3 mt-3">
+																				<b><?= $j['path_name'] ?></b>
+																			</div>
 																		</div>
 																	</div>
 																	<div class="card-body ms-3">
-																		<p class="card-text"><?= $j['path_description'] ?></p>
+																		<p class="card-text"><?= $j['path_description'] ?>
+																		</p>
 																	</div>
-																	<div class="text-end">
-																		<a target="_blank" href="<?= $j['cta_link'] ?>" class="text-end text-warning">Daftar Sekarang <i class="fa-solid fa-arrow-right"></i></a>
+																	<div class="text-end ">
+																		<a id="noaccess3<?= $ii++ ?>" target="_blank" href="javascript:void(0)" class="text-end text-warning pe-none disabled">Daftar
+																			Sekarang <i class="fa-solid fa-arrow-right"></i></a>
 																	</div>
 																</div>
 															</div>
@@ -140,7 +156,8 @@
 							<img src="<?= base_url('assets/img/') . $image ?>" class="card-img-top mt-4" alt="gambar program" style="height: 90px; width: 180px">
 							<div class="card-body ">
 								<p class="card-text" style="font-size: 24px;"><b><?= $program['title'] ?></b> </p>
-								<p class="card-text text-secondary" style="font-size: 14px; margin-top:-10px;"><?= $program['location'] ?></p>
+								<p class="card-text text-secondary" style="font-size: 14px; margin-top:-10px;">
+									<?= $program['location'] ?></p>
 							</div>
 							<div class="row ms-1">
 
@@ -162,13 +179,16 @@
 							</div>
 							<hr>
 							<div class="card-body">
-								<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Detail Kegiatan</b> </p>
-								<p class="card-text" style="font-size: 14px; margin-top:-10px;text-align: justify;"><?= nl2br(htmlspecialchars($program['program_description'])) ?></p>
+								<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Detail Kegiatan</b>
+								</p>
+								<p class="card-text" style="font-size: 14px; margin-top:-10px;text-align: justify;">
+									<?= nl2br(htmlspecialchars($program['program_description'])) ?></p>
 							</div>
 
 							<hr>
 							<div class="card-body">
-								<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Manfaat Yang Akan Kamu Dapatkan</b> </p>
+								<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Manfaat Yang Akan
+										Kamu Dapatkan</b> </p>
 
 								<div class="row">
 									<?php
@@ -204,23 +224,26 @@
 
 								<hr>
 								<div class="card-body">
-									<p class="card-text mb-3" style="font-size: 18px; margin-top:-20px;"><b>Persyaratan Delegasi</b> </p>
+									<p class="card-text mb-3" style="font-size: 18px; margin-top:-20px;"><b>Persyaratan
+											Delegasi</b> </p>
 
 									<?php
 
-									$delegate = explode('</li>', $program['delegation_requirement']);
+									$delegate = explode(';', $program['delegation_requirement']);
 									$a = 1;
 									foreach ($delegate as $del) {
+										if (strlen($del) > 0) {
 									?>
-										<!-- start requirement -->
-										<div class="row mb-2">
-											<div class="col-lg-1 col-md-12"><span class="badge text-white rounded-pill text-dark" style="background-color: #012970;"><?= $a++ ?></span></div>
-											<div class="col-lg-11 col-md-12">
-												<?= $del ?>
+											<!-- start requirement -->
+											<div class="row mb-2">
+												<div class="col-lg-1 col-md-12"><span class="badge text-white rounded-pill text-dark" style="background-color: #012970;"><?= $a++ ?></span></div>
+												<div class="col-lg-11 col-md-12">
+													<?= $del ?>
+												</div>
 											</div>
-										</div>
-										<!-- end requirement -->
+											<!-- end requirement -->
 									<?php
+										}
 									}
 									?>
 
@@ -228,28 +251,34 @@
 
 								<hr>
 								<div class="card-body">
-									<p class="card-text mb-3" style="font-size: 18px; margin-top:-20px;"><b>Program Yang Dijalankan</b> </p>
+									<p class="card-text mb-3" style="font-size: 18px; margin-top:-20px;"><b>Program Yang
+											Dijalankan</b> </p>
 
 									<?php
-									$activity = explode('</li>', $program['program_activity']);
+									$activity = explode(';', htmlspecialchars($program['program_activity']));
 									$a = 1;
+
 									foreach ($activity as $act) {
+										if (strlen($act) > 0) {
 									?>
 
-										<!-- start activity -->
-										<div class="row mb-2">
-											<div class="col-lg-1 col-md-12"><span class="badge text-white rounded-pill text-dark" style="background-color: #012970;"><?= $a++ ?></span></div>
-											<div class="col-lg-11 col-md-12"><?= $act ?></div>
-										</div>
-										<!-- end activity -->
+											<!-- start activity -->
+											<div class="row mb-2">
+												<div class="col-lg-1 col-md-12"><span class="badge text-white rounded-pill text-dark" style="background-color: #012970;"><?= $a++ ?></span></div>
+												<div class="col-lg-11 col-md-12"><?= $act ?></div>
+											</div>
+											<!-- end activity -->
 									<?php
+
+										}
 									}
 									?>
 								</div>
 
 								<hr>
 								<div class="card-body">
-									<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Preview Kegiatan</b> </p>
+									<p class="card-text" style="font-size: 18px; margin-top:-20px;"><b>Preview
+											Kegiatan</b> </p>
 									<div class="row">
 										<div class="container text-center my-1 ratio ratio-16x9">
 

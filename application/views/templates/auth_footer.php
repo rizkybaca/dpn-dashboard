@@ -4,19 +4,17 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	var passwordField = document.querySelector(".password");
-	var show = document.querySelector(".show");
-	var hide = document.querySelector(".hide");
+	var jal = document.querySelector("#gotTheEye");
 
-	show.onclick = function() {
-		passwordField.setAttribute("type", "text");
-		show.style.display = "none";
-		hide.style.display = "block";
-	};
-	hide.onclick = function() {
-		passwordField.setAttribute("type", "password");
-		hide.style.display = "none";
-		show.style.display = "block";
-	};
+	var checkedValue = document.querySelector('#gotTheEye');
+
+	checkedValue.onclick = function() {
+		if (checkedValue.checked == true) {
+			passwordField.setAttribute("type", "text");
+		} else {
+			passwordField.setAttribute("type", "password");
+		}
+	}
 </script>
 </body>
 

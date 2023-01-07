@@ -10,7 +10,7 @@
 	<meta name="robots" content="noindex, nofollow" />
 	<meta content="" name="description" />
 	<meta content="" name="keywords" />
-	<link href="<?= base_url('assets/assets_user/'); ?>img/link_icon.png" rel="icon" />
+	<link href="<?= base_url('assets/assets_user/img/link_icon.png'); ?>" rel="icon" />
 	<!-- <link href="<?= base_url('assets/'); ?>img/apple-touch-icon.png" rel="apple-touch-icon" /> -->
 
 	<link rel="preconnect" href="https://fonts.googleapis.com" />

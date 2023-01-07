@@ -24,6 +24,14 @@ class Program_model extends CI_Model
 	{
 		return $this->db->get_where('programs', ['id_program' => $id_program])->row_array();
 	}
+	public function getProgramByProgramTypeName($type_name)
+	{
+		$this->db->select('*');
+		$this->db->from('programs');
+		$this->db->join('program_types', 'programs.program_type_id = program_types.id_program_type');
+		$this->db->like('program_type_name', $type_name);
+		return $this->db->get()->result_array();
+	}
 	public function getProgramByProgramTypeId($program_type_id)
 	{
 

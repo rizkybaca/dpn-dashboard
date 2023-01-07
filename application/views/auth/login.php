@@ -29,10 +29,12 @@
 									</div>
 									<div class="mb-3">
 										<label for="password" class="form-label">Password</label>
-										<input id="password" name="password" type="password" class="password form-control" placeholder="Masukkan password"><i class="hide fa fa-eye"></i>
-										<i class="show fa fa-eye-slash"></i>
+										<input id="password" name="password" type="password" class="password form-control" placeholder="Masukkan password">
+										<!-- <i class="hide fa fa-eye"></i>
+										<i class="show fa fa-eye-slash"></i> -->
 										<?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
-
+										<input class="form-check-input" type="checkbox" id="gotTheEye" />
+										<label class="disabled form-check-label" for="gotTheEye">Lihat Password</label>
 									</div>
 
 									<!-- <div class="form-check form-switch">

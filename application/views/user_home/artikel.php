@@ -13,44 +13,39 @@
 					<!-- start article category -->
 					<?php
 
-					$id_category = '';
+					$category_name = '';
 
 					// $activeB = '';
 					foreach ($kategori as $kt) {
 						$nama = '';
 
-						if (!isset($_GET['submitKategory']) && $id_category == '') {
+						if (!isset($_GET['category']) && $category_name == '') {
 
 							if ($kt['category_name'] == 'Program') {
-								$id_category = $kt['id_category'];
-								$nama = $kt['category_name'];
+								$category_name = $kt['category_name'];
+								// $nama = $kt['category_name'];
 							}
 						}
-						$active = (isset($_GET['submitKategory']) && $kt['id_category'] == $_GET['category']) ? 'active' : '';
+						$active = (isset($_GET['category']) && $kt['category_name'] == $_GET['category']) ? 'active' : '';
 						if ($active == 'active') {
-							$id_category = $kt['id_category'];
-							$nama = $kt['category_name'];
+							$category_name = $kt['category_name'];
+							// $nama = $kt['category_name'];
 						}
 
-						$lala = (isset($_GET['submitKategory'])) ? $_GET['category'] : $id_category;
+						$lala = (isset($_GET['category'])) ? $_GET['category'] : $category_name;
 						if ($lala) {
-							$id_category = $lala;
+							$category_name = $lala;
 						}
 
 					?>
 
-						<!-- <li class="nav-item ms-3" data-bs-toggle="tab">
-							<button class="nav-link <?= $active ?>" data-bs-toggle="tab" href="#"><?= $kt['category_name'] ?></button>
-						</li> -->
-
 						<li class="nav-item ms-3" data-bs-toggle="tab">
 							<form action="" method="GET">
-								<input type="hidden" name="category" value="<?= $kt['id_category'] ?>">
 								<?php
-								$retval = ($kt['category_name'] === $nama) ? 'active' : '';
+								$retval = ($kt['category_name'] === $category_name) ? 'active' : '';
 								?>
 
-								<button value="<?= $kt['category_name'] ?>" type="submit" name="submitKategory" class="nav-link <?= $retval ?>" data-bs-toggle="tab" href="#"><?= $kt['category_name'] ?></button>
+								<button value="<?= $kt['category_name'] ?>" type="submit" name="category" class="nav-link <?= $retval ?>" data-bs-toggle="tab" href="#"><?= $kt['category_name'] ?></button>
 							</form>
 
 						</li>
@@ -77,7 +72,7 @@
 			<div class="row mt-4 mb-1" style="padding:20px; ">
 
 				<?php
-				$data['artikel'] = $this->artikel->getArticleByCategoryId($id_category);
+				$data['artikel'] = $this->artikel->getArticleByCategoryName($category_name);
 				// $data['artikel'] = $this->artikel->getArticle();
 				?>
 				<?php

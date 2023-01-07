@@ -133,21 +133,22 @@
 				<div class="card-body text-center bg-warning p-5">
 					<div class="row">
 						<div class="col-lg-3 col-md-12 border-end border-dark">
-							<h1><?= $count_program_csr; ?></h1>
-							<h5>Program CSR</h5>
+							<h1><?= $count_program_pengabdian; ?></h1>
+							<h5>Program Pengabdian</h5>
 						</div>
-						<!-- <div class="col-lg-3 col-md-12 border-end border-dark">
-							<h1><?= $count_program_csr; ?></h1>
-							<h5>Program CSR</h5>
-						</div> -->
 						<div class="col-lg-3 col-md-12 border-end border-dark">
-							<h1><?= $count_program_pengabdian; ?></h1>
-							<h5>Program Pengabdian</h5>
+							<h1><?= $count_alumni_pengabdian ?></h1>
+							<h5>Alumni Program Pengabdian</h5>
 						</div>
-						<!-- <div class="col-lg-3 col-md-12">
-							<h1><?= $count_program_pengabdian; ?></h1>
-							<h5>Program Pengabdian</h5>
-						</div> -->
+						<div class="col-lg-3 col-md-12 border-end border-dark">
+							<h1><?= $count_alumni_webinar ?></h1>
+							<h5>Alumni Webinar Online</h5>
+						</div>
+						<div class="col-lg-3 col-md-12 border-end border-dark">
+							<h1><?= $count_alumni_penerima_giveaway ?></h1>
+							<h5>Penerima Hadiah/Giveaway</h5>
+						</div>
+
 					</div>
 				</div>
 			</div>

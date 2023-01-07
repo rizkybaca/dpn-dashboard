@@ -44,36 +44,50 @@ class User extends CI_Controller
 			$about = $this->input->post('about');
 			$id = $this->input->post('id');
 
-			// $upload_image = $_FILES['image']['name'];
+			$upload_image = (@$_FILES['image']['name']) ? true : false;
 
-			// if ($upload_image) {
-			// 	$config['allowed_types'] = 'gif|jpg|png';
-			// 	$config['max_size']     = '2048';
-			// 	$config['upload_path'] = './assets/img/profile/';
-			// 	$this->load->library('upload', $config);
+			if ($upload_image == true) {
+				$config['allowed_types'] = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+				$config['max_size']     = '2048';
+				$config['upload_path'] = './assets/img/profile/';
+				$config['encrypt_name'] = TRUE;
+				$this->load->library('upload', $config);
 
-			// 	if ($this->upload->do_upload('image')) {
-			// 		$old_image = $data['user']['image'];
-
-			// 		if ($old_image != 'default.jpg') {
-			// 			unlink(FCPATH . 'assets/img/profile/' . $old_image);
-			// 		}
-
-			// 		$new_image = $this->upload->data('file_name');
-			// 		$this->db->set('image', $new_image);
-			// 	} else {
-			// 		echo $this->upload->display_errors();
-			// 	}
-			// }
+				if ($this->upload->do_upload('image')) {
+					$new_image = $this->upload->data('file_name');
+					$this->db->set('image', $new_image);
+					// $data += [
+					// 	"image" => $new_image
+					// ];
+				} else {
+					echo $this->upload->display_errors();
+				}
+			}
 
 			$this->db->set('name', $name);
 			$this->db->set('job', $job);
 			$this->db->set('organization', $organization);
 			$this->db->set('about', $about);
 			$this->db->where('id', $id);
-			$this->db->update('user');
+			// $this->db->update('user');
 
-			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
+			$result = $this->db->update('user');
+
+			if ($result == true) {
+				$exImage = (@$new_image) ? true : false;
+				if ($exImage == true) {
+					// delete old asset
+					$old_image = $this->input->post('old_image', true);
+					if ($old_image != 'default.jpg') {
+						unlink(FCPATH . 'assets/img/profile/' . $old_image);
+					}
+				}
+				$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your profile has been updated!</div>');
+			} else {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Your profile has not been updated!</div>');
+			}
+
+
 			redirect('user');
 		}
 	}

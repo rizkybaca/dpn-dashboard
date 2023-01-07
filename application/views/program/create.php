@@ -19,12 +19,14 @@
 							<?php
 							foreach ($tipe_program as $tp) {
 							?>
-								<div class="form-check form-check form-check-inline">
-									<input class="form-check-input cek-tipe-nih" type="radio" name="program_type_id" id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>" data-pt="<?= $tp['id_program_type'] ?>" required>
-									<label class="form-check-label" for="<?= $tp['id_program_type'] ?>">
-										<?= $tp['program_type_name'] ?>
-									</label>
-								</div>
+							<div class="form-check form-check form-check-inline">
+								<input class="form-check-input cek-tipe-nih" type="radio" name="program_type_id"
+									id="<?= $tp['id_program_type'] ?>" value="<?= $tp['id_program_type'] ?>"
+									data-pt="<?= $tp['id_program_type'] ?>" required>
+								<label class="form-check-label" for="<?= $tp['id_program_type'] ?>">
+									<?= $tp['program_type_name'] ?>
+								</label>
+							</div>
 							<?php
 							}
 							?>
@@ -60,12 +62,12 @@
 						</div>
 						<div class="form-group">
 							<label for="guide_book_link" class="mb-3 mt-3">Link Buku Panduan</label>
-							<input type="url" id="guide_book_link" name="guide_book_link" class="form-control" >
+							<input type="url" id="guide_book_link" name="guide_book_link" class="form-control">
 							<?= form_error('guide_book_link', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label for="video" class="mb-3 mt-3">Link Video Preview</label>
-							<input type="url" id="video" name="video" class="form-control" >
+							<input type="url" id="video" name="video" class="form-control">
 							<?= form_error('video', '<small class="text-danger pl-3">', '</small>'); ?>
 						</div>
 						<div class="form-group">
@@ -105,19 +107,22 @@
 							<label class="mb-1 mt-3">Pilih Metode Pelaksanaan</label>
 							<br>
 							<div class="form-check form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="work_method" id="offline" value="offline" required>
+								<input class="form-check-input" type="radio" name="work_method" id="offline"
+									value="offline" required>
 								<label class="form-check-label" for="offline">
 									Offline
 								</label>
 							</div>
 							<div class="form-check form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="work_method" id="online" value="online">
+								<input class="form-check-input" type="radio" name="work_method" id="online"
+									value="online">
 								<label class="form-check-label" for="online">
 									Online
 								</label>
 							</div>
 							<div class="form-check form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="work_method" id="hybrid" value="hybrid">
+								<input class="form-check-input" type="radio" name="work_method" id="hybrid"
+									value="hybrid">
 								<label class="form-check-label" for="hybrid">
 									Hybrid
 								</label>
@@ -152,13 +157,15 @@
 
 						<div class="form-group">
 							<label for="ckedtor" class="mb-3 mt-3">Detail Kegiatan</label>
-							<textarea class="ckeditor" name="program_description" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"></textarea>
+							<textarea class="ckeditor" name="program_description" id="ckedtor" rows="3"
+								placeholder="tuliskan sesuatu disini"></textarea>
 						</div>
 
 						<!-- start choose benefit -->
 						<div class="form-group">
 							<label class="mb-1 mt-3">Pilih manfaat untuk program ini</label><br>
-							<label class="fst-italic text-danger" id="fill_benefit">pilih tipe program dahulu!</label><br>
+							<label class="fst-italic text-danger" id="fill_benefit">pilih tipe program
+								dahulu!</label><br>
 						</div>
 						<!-- end choose benefit -->
 
@@ -186,14 +193,17 @@
 
 						<div class="form-group">
 							<label for="ckedtor" class="mb-3 mt-3">Persyaratan Delegasi</label>
-							<textarea class="ckeditor" name="delegation_requirement" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"></textarea>
+							<textarea class="ckeditor" name="delegation_requirement" id="ckedtor" rows="3"
+								placeholder="tuliskan sesuatu disini"></textarea>
 						</div>
 
 						<div class="form-group">
 							<label for="ckedtor" class="mb-3 mt-3">Program Pengabdian</label>
-							<textarea class="ckeditor" name="program_activity" id="ckedtor" rows="3" placeholder="tuliskan sesuatu disini"></textarea>
+							<textarea class="ckeditor" name="program_activity" id="ckedtor" rows="3"
+								placeholder="tuliskan sesuatu disini"></textarea>
 						</div>
-						<button type="submit" value="upload" class="btn mt-5" style="background-color: #242790; color: white">Post Program</button>
+						<button type="submit" value="upload" class="btn mt-5"
+							style="background-color: #242790; color: white">Post Program</button>
 						<a href="<?= base_url('program') ?>" class="btn btn-danger mt-5">Batal</a>
 
 					</form>

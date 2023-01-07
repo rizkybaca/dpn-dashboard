@@ -11,39 +11,39 @@
 			<div class="collapse navbar-collapse text-left" id="navbarText">
 				<ul class="nav nav-tabs nav-tabs-bordered  mb-2 mb-lg-0">
 					<?php
-					$id_program_type = '';
+					$program_type_name = '';
 					foreach ($tipe_program as $pt) {
 						$nama = '';
 
-						if (!isset($_GET['submitTipe']) && $id_program_type == '') {
+						if (!isset($_GET['type']) && $program_type_name == '') {
 							if ($pt['program_type_name'] == 'Pengabdian') {
-								$id_program_type = $pt['id_program_type'];
-								$nama = $pt['program_type_name'];
+								$program_type_name = $pt['program_type_name'];
+								// $nama = $pt['program_type_name'];
 							}
 						}
 
-						$active = (isset($_GET['submitTipe']) && $pt['id_program_type'] == $_GET['type']) ? 'active' : '';
+						$active = (isset($_GET['type']) && $pt['program_type_name'] == $_GET['type']) ? 'active' : '';
 
 						if ($active == 'active') {
-							$id_program_type = $pt['id_program_type'];
-							$nama = $pt['program_type_name'];
+							$program_type_name = $pt['program_type_name'];
+							// $nama = $pt['program_type_name'];
 						}
 
-						$lili = (isset($_GET['submitTipe'])) ? $_GET['type'] : $id_program_type;
+						$lili = (isset($_GET['type'])) ? $_GET['type'] : $program_type_name;
 						if ($lili) {
-							$id_program_type = $lili;
+							$program_type_name = $lili;
 						}
 
 					?>
 						<!-- start program type  -->
 						<li class="nav-item ms-3">
 							<form action="" method="GET">
-								<input type="hidden" name="type" value="<?= $pt['id_program_type'] ?>">
+								<!-- <input type="hidden" name="type" value="<?= $pt['program_type_name'] ?>"> -->
 								<?php
-								$retval = ($pt['program_type_name'] === $nama) ? 'active' : '';
+								$retval = ($pt['program_type_name'] === $program_type_name) ? 'active' : '';
 								?>
 
-								<button type="submit" name="submitTipe" class="nav-link <?= $retval ?>" data-bs-toggle="tab" href="#" value="<?= $pt['program_type_name'] ?>"><?= $pt['program_type_name'] ?></button>
+								<button type="submit" name="type" class="nav-link <?= $retval ?>" data-bs-toggle="tab" href="#" value="<?= $pt['program_type_name'] ?>"><?= $pt['program_type_name'] ?></button>
 							</form>
 						</li>
 					<?php
@@ -68,7 +68,7 @@
 				<!-- start program -->
 				<?php
 
-				$data['program'] = $this->program->getProgramByProgramTypeId($id_program_type);
+				$data['program'] = $this->program->getProgramByProgramTypeName($program_type_name);
 
 				foreach ($data['program'] as $p) {
 				?>
@@ -101,8 +101,10 @@
 							</div>
 							<div class="card-body">
 								<p class="card-text" style="font-size: 14px; margin-top:-20px;"><b>Detail Kegiatan</b> </p>
-								<p class="card-text" style="font-size: 12px; margin-top:-10px;"><?= htmlspecialchars(substr($p['program_description'], 0, 100)) ?>...</p>
-								<a class="btn text-white" href="<?= base_url("User_Detail_program/index/") . $p['slug']; ?>" role="button" style=" background-color: #1ABB63; font-size: 11px; border-radius: 8px;">Batas Akhir Pendaftaran : <?= date('d F Y', strtotime($p['end'])) ?></a>
+								<p class="card-text" style="font-size: 12px; margin-top:-10px;">
+									<?= htmlspecialchars(substr($p['program_description'], 0, 100)) ?>...</p>
+								<a class="btn text-white" href="<?= base_url("User_Detail_program/index/") . $p['slug']; ?>" role="button" style=" background-color: #1ABB63; font-size: 11px; border-radius: 8px;">Batas Akhir
+									Pendaftaran : <?= date('d F Y', strtotime($p['end'])) ?></a>
 							</div>
 						</div>
 					</div>
